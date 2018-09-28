@@ -153,6 +153,10 @@
 			StringeeSoftPhone.on('disconnect', function () {
 				console.log('disconnected');
 			});
+			
+			StringeeSoftPhone.on('signalingstate', function (state) {
+				console.log('signalingstate', state);
+			});
 
 			
 

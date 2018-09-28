@@ -205,7 +205,7 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 	});
 
 	call1.on('signalingstate', function (state) {
-		console.log('signalingstate ', state);
+//		console.log('signalingstate ', state);
 		if (state.code === 6) {//Ended
 			//neu la cuoc goi den chua tra loi
 			if (call1.isIncomingCall && !call1.isAnswered) {
@@ -228,6 +228,11 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 		}
 
 		thisPhone.callStatus(state.reason);
+		
+		var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('signalingstate');
+		if(eventMethod){
+			eventMethod.call(window.parent.StringeeSoftPhone, state);
+		}
 	});
 
 	call1.on('mediastate', function (state) {
