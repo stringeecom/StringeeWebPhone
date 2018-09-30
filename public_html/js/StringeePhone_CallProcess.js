@@ -160,7 +160,7 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 
 		thisPhone.settingCallEvents(incomingcall);
 
-		console.log('incomingcall: ', incomingcall);
+//		console.log('incomingcall: ', incomingcall);
 		thisPhone.showIncomingCall(true);
 
 		//show full mode
@@ -177,6 +177,8 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 //			});
 //		}
 //		navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
+
+		window.parent.StringeeSoftPhone._callOnEvent('incomingCall', incomingcall);
 	});
 	client.on('requestnewtoken', function () {
 		window.parent.StringeeSoftPhone._callOnEvent('requestNewToken');

@@ -86,7 +86,9 @@ var StringeeSoftPhone = StringeeSoftPhone || {
 	arrowLeft: 20,
 	fromNumbers: [],
 	askCallTypeWhenMakeCall: false,
-	appendToElement: null
+	appendToElement: null,
+	
+	makeAndReceiveCallInNewPopupWindow: false
 };
 
 

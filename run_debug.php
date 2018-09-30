@@ -86,6 +86,46 @@
 		<script src="public_html/StringeeSoftPhone-<?= VERSION ?>.js"></script>
 
 		<script>
+			var callPopupWindow = null;
+			window.popupMustAnswerIncomingCall = false;
+			window.popupMustMakeOutgoingCall = false;
+			//
+			window.popupMustMakeOutgoingCallFrom = '';
+			window.popupMustMakeOutgoingCallTo = '';
+			window.popupMustMakeOutgoingCallType = '';
+
+			function openPopupWindow(answerIncomingCallBtnClick) {
+				if (callPopupWindow === null || callPopupWindow.closed) {
+					//chua tao popup, hoac da dong
+					callPopupWindow = window.open('http://127.0.0.1/stringee/StringeeWebPhone/popup.html', 'Call', 'height=740,width=490');
+
+					if (answerIncomingCallBtnClick) {
+						window.popupMustAnswerIncomingCall = true;
+					} else {
+						window.popupMustMakeOutgoingCall = true;
+					}
+				} else {
+					if (answerIncomingCallBtnClick) {
+						//answer call
+						callPopupWindow.StringeeSoftPhone.answerCall();
+					} else {
+						//make call
+						callPopupWindow.StringeeSoftPhone.makeCall(
+								window.popupMustMakeOutgoingCallFrom, 
+								window.popupMustMakeOutgoingCallTo, 
+								function (res) {
+									console.log('res: ', res);
+								}, 
+								window.popupMustMakeOutgoingCallType
+						);
+					}
+				}
+
+				if (window.focus) {
+					callPopupWindow.focus();
+				}
+			}
+
 			var config = {
 				showMode: 'full',
 				top: 45,
@@ -99,7 +139,9 @@
 
 				askCallTypeWhenMakeCall: true,
 
-//				appendToElement: 'abc'
+				makeAndReceiveCallInNewPopupWindow: true,
+
+				appendToElement: null
 			};
 			StringeeSoftPhone.init(config);
 
@@ -145,24 +187,38 @@
 				remoteVideo.srcObject = null;
 				remoteVideo.srcObject = stream;
 			});
-			
+
 			StringeeSoftPhone.on('authen', function (res) {
 				console.log('authen: ', res);
 			});
-			
+
 			StringeeSoftPhone.on('disconnect', function () {
 				console.log('disconnected');
 			});
-			
+
 			StringeeSoftPhone.on('signalingstate', function (state) {
 				console.log('signalingstate', state);
 			});
 
-			
+			//su kien click vao nut nghe cuoc goi
+			StringeeSoftPhone.on('answerIncomingCallBtnClick', function () {
+				console.log('answerIncomingCallBtnClick');
+				openPopupWindow(true);
+			});
 
-			//test
-			//setTimeout(function () {
-			// access_token2 = '1';
+			//su kien click vao nut goi di
+			StringeeSoftPhone.on('makeOutgoingCallBtnClick', function (fromNumber, toNumber, callType) {
+				console.log('makeOutgoingCallBtnClick: fromNumber=' + fromNumber + ', toNumber=' + toNumber + ',callType=' + callType);
+				window.popupMustMakeOutgoingCallFrom = fromNumber;
+				window.popupMustMakeOutgoingCallTo = toNumber;
+				window.popupMustMakeOutgoingCallType = callType;
+				openPopupWindow(false);
+			});
+
+			StringeeSoftPhone.on('incomingCall', function (incomingcall) {
+				console.log('incomingCall: ', incomingcall);
+			});
+
 			StringeeSoftPhone.connect(access_token2);
 
 //				StringeeSoftPhone.show('full');				
@@ -185,7 +241,15 @@
 						console.log('res: ', res);
 					});
 				});
-				
+
+				$('#make-call-popup-btn').on('click', function () {
+					//test
+					window.popupMustMakeOutgoingCallFrom = '84899199586';
+					window.popupMustMakeOutgoingCallTo = '84909982668';
+					window.popupMustMakeOutgoingCallType = 'callout';
+					openPopupWindow(false);
+				});
+
 				$('#hangup-call-btn').on('click', function () {
 					StringeeSoftPhone.hangupCall();
 				});
@@ -193,7 +257,7 @@
 				$('#disconnect-btn').on('click', function () {
 					StringeeSoftPhone.disconnect();
 				});
-				
+
 				$('#answer-btn').on('click', function () {
 					StringeeSoftPhone.answerCall();
 				});
@@ -205,10 +269,14 @@
 				Make call
 			</button>
 
+			<button id="make-call-popup-btn" class="channels-control">
+				Make call in new popup window
+			</button>
+
 			<button id="disconnect-btn" class="channels-control">
 				Disconnect
 			</button>
-			
+
 			<button id="answer-btn" class="channels-control">
 				Answer
 			</button>
@@ -216,8 +284,8 @@
 			<button id="header-call-btn" class="channels-control">
 				Call
 			</button>
-			
-			
+
+
 			<button id="hangup-call-btn" class="channels-control">
 				Hangup
 			</button>

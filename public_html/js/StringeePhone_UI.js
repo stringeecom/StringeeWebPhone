@@ -142,45 +142,60 @@ StringeePhone.prototype.makeCallWithUI = function (fromNumber, toNumber, callbac
 	$("#page-diapad input").val(toNumber);
 	$('#from-number-callout').html(fromNumber);
 
-	this.callBtnClicked(callType);
+	this.callBtnClicked(callType, false);
 
 	callback.call(this, {r: 0, msg: 'Success'});
 };
 
-StringeePhone.prototype.callBtnClicked = function (callType) {
+StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
+	//toNumber
 	var toNumber = $("#page-diapad input").val();
 	toNumber = toNumber.replace("%2B", '');
 	toNumber = toNumber.replace("+", '');
 	toNumber = toNumber.replace(' ', '');
 
+	//fromNumber
+	var fromNumber = $('#from-number-callout').html();
+	fromNumber = fromNumber.replace("%2B", '');
+	fromNumber = fromNumber.replace("+", '');
+	fromNumber = fromNumber.replace(' ', '');
+
 	this.isInCall = !this.isInCall;
 
 	if (this.isInCall) {
 		//neu cau hinh hoi xem kieu Call (voice call, video call, call out); neu setting la hoi va chua truyen vao callType
-		if(window.parent.StringeeSoftPhone.askCallTypeWhenMakeCall && !callType){
+		if (window.parent.StringeeSoftPhone.askCallTypeWhenMakeCall && !callType) {
 			//hien thi man hinh hoi
 			$('.wrap-option-call').removeClass('display-none');
-			
+
 			this.isInCall = !this.isInCall;
 			return;
 		}
-		
+
 		//set callType
-		if(!callType){
+		if (!callType) {
 			callType = 'callout';
 		}
-		
+
+		if (isBtnClicked) {
+			var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('makeOutgoingCallBtnClick');
+			if (eventMethod) {
+				eventMethod.call(window.parent.StringeeSoftPhone, fromNumber, toNumber, callType);
+			}
+		}
+
+		//neu mo popup moi luc makecall
+		if (window.parent.StringeeSoftPhone.makeAndReceiveCallInNewPopupWindow) {
+			this.isInCall = !this.isInCall;
+			return;
+		}
+
 		$('.info-name').html(toNumber);
 		this.callStatus('Calling...');
 
 		this.showTab('calling');
 
 		$('.status-time').addClass('display-none');
-
-		var fromNumber = $('#from-number-callout').html();
-		fromNumber = fromNumber.replace("%2B", '');
-		fromNumber = fromNumber.replace("+", '');
-		fromNumber = fromNumber.replace(' ', '');
 
 		var makeCallOk = this.makeCall(fromNumber, toNumber, callType);
 
@@ -207,7 +222,7 @@ StringeePhone.prototype.hangupCall = function () {
 	if (this.currentCall) {
 		this.currentCall.hangup();
 		this.hideCallingUIWithTimeout();
-		
+
 		return true;
 	}
 	return false;
@@ -216,10 +231,10 @@ StringeePhone.prototype.hangupCall = function () {
 StringeePhone.prototype.answerCall = function () {
 	if (this.currentCall && this.currentCall.isIncomingCall && !this.currentCall.isAnswered) {
 		this.incomingCallAcceptBtnClicked();
-		
+
 		return true;
 	}
-	
+
 	return false;
 };
 
@@ -429,7 +444,7 @@ $(document).ready(function () {
 
 	//call
 	$('#btnToolCall').on('click', function () {
-		stringeePhone.callBtnClicked();
+		stringeePhone.callBtnClicked(null, true);
 	});
 
 	$('#btnIncommingCall').on('click', function () {
@@ -477,7 +492,10 @@ $(document).ready(function () {
 
 	//accept incoming call
 	$('#btn-incomming-accept').on('click', function () {
-		stringeePhone.incomingCallAcceptBtnClicked();
+		if (!window.parent.StringeeSoftPhone.makeAndReceiveCallInNewPopupWindow) {
+			stringeePhone.incomingCallAcceptBtnClicked();
+		}
+		window.parent.StringeeSoftPhone._callOnEvent('answerIncomingCallBtnClick');
 	});
 
 	//decline incoming call
@@ -575,23 +593,23 @@ $(document).ready(function () {
 		//goi len parent de phong to iframe
 		window.parent.StringeeSoftPhone.show('full');
 	});
-	
+
 	//an man hinh chon call type
-	$('.btn-close-option-call').on('click', function(){
+	$('.btn-close-option-call').on('click', function () {
 		$('.wrap-option-call').addClass('display-none');
 	});
-	
+
 	//chon call type
-	$('.btn-free-voice-call').on('click', function(){
-		stringeePhone.callBtnClicked('free-voice-call');
+	$('.btn-free-voice-call').on('click', function () {
+		stringeePhone.callBtnClicked('free-voice-call', true);
 		$('.wrap-option-call').addClass('display-none');
 	});
-	$('.btn-free-video-call').on('click', function(){
-		stringeePhone.callBtnClicked('free-video-call');
+	$('.btn-free-video-call').on('click', function () {
+		stringeePhone.callBtnClicked('free-video-call', true);
 		$('.wrap-option-call').addClass('display-none');
 	});
-	$('.btn-free-callout').on('click', function(){
-		stringeePhone.callBtnClicked('callout');
+	$('.btn-free-callout').on('click', function () {
+		stringeePhone.callBtnClicked('callout', true);
 		$('.wrap-option-call').addClass('display-none');
 	});
 });
