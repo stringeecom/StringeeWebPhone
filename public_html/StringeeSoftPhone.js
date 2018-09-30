@@ -218,9 +218,17 @@ StringeeSoftPhone.makeCall = function (fromNumber, toNumber, callback, callType)
 
 StringeeSoftPhone.hangupCall = function () {
 	if (!StringeeSoftPhone._ready) {
-		return;
+		return false;
 	}
 
-	StringeeSoftPhone._iframe.contentWindow.stringeePhone.hangupCall();
+	return StringeeSoftPhone._iframe.contentWindow.stringeePhone.hangupCall();
+};
+
+StringeeSoftPhone.answerCall = function () {
+	if (!StringeeSoftPhone._ready) {
+		return false;
+	}
+
+	return StringeeSoftPhone._iframe.contentWindow.stringeePhone.answerCall();
 };
 

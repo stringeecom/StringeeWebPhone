@@ -189,36 +189,38 @@
 				$('#hangup-call-btn').on('click', function () {
 					StringeeSoftPhone.hangupCall();
 				});
-				
-				
 
 				$('#disconnect-btn').on('click', function () {
 					StringeeSoftPhone.disconnect();
+				});
+				
+				$('#answer-btn').on('click', function () {
+					StringeeSoftPhone.answerCall();
 				});
 			});
 		</script>
 
 		<div id="header">
-			<button id="make-call-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+			<button id="make-call-btn" class="channels-control">
 				Make call
 			</button>
 
-			<button id="disconnect-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+			<button id="disconnect-btn" class="channels-control">
 				Disconnect
 			</button>
+			
+			<button id="answer-btn" class="channels-control">
+				Answer
+			</button>
 
-			<button id="header-call-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+			<button id="header-call-btn" class="channels-control">
 				Call
 			</button>
 			
 			
-			<button id="hangup-call-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+			<button id="hangup-call-btn" class="channels-control">
 				Hangup
 			</button>
-		</div>
-
-		<div id="abc" style="position: absolute; left: 100px; top: 200px; background-color: red">
-			abc
 		</div>
 
 		<div class="wrap-video">

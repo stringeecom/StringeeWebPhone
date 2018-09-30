@@ -207,9 +207,20 @@ StringeePhone.prototype.hangupCall = function () {
 	if (this.currentCall) {
 		this.currentCall.hangup();
 		this.hideCallingUIWithTimeout();
+		
+		return true;
+	}
+	return false;
+};
+
+StringeePhone.prototype.answerCall = function () {
+	if (this.currentCall && this.currentCall.isIncomingCall && !this.currentCall.isAnswered) {
+		this.incomingCallAcceptBtnClicked();
+		
+		return true;
 	}
 	
-//	this.isInCall = false;
+	return false;
 };
 
 StringeePhone.prototype.stopRingtoneIncomingCall = function () {
@@ -219,7 +230,7 @@ StringeePhone.prototype.stopRingtoneIncomingCall = function () {
 
 StringeePhone.prototype.incomingCallAcceptBtnClicked = function () {
 	var thisPhone = this;
-	if (thisPhone.currentCall) {
+	if (thisPhone.currentCall && !thisPhone.currentCall.isAnswered) {
 		thisPhone.currentCall.answer();
 		thisPhone.currentCallAnswerTime = (new Date()).getTime();
 		thisPhone.countDuration();
