@@ -139,7 +139,7 @@
 
 				askCallTypeWhenMakeCall: true,
 
-				makeAndReceiveCallInNewPopupWindow: true,
+				makeAndReceiveCallInNewPopupWindow: false,
 
 				appendToElement: null
 			};
@@ -203,16 +203,16 @@
 			//su kien click vao nut nghe cuoc goi
 			StringeeSoftPhone.on('answerIncomingCallBtnClick', function () {
 				console.log('answerIncomingCallBtnClick');
-				openPopupWindow(true);
+//				openPopupWindow(true);
 			});
 
 			//su kien click vao nut goi di
 			StringeeSoftPhone.on('makeOutgoingCallBtnClick', function (fromNumber, toNumber, callType) {
 				console.log('makeOutgoingCallBtnClick: fromNumber=' + fromNumber + ', toNumber=' + toNumber + ',callType=' + callType);
-				window.popupMustMakeOutgoingCallFrom = fromNumber;
-				window.popupMustMakeOutgoingCallTo = toNumber;
-				window.popupMustMakeOutgoingCallType = callType;
-				openPopupWindow(false);
+//				window.popupMustMakeOutgoingCallFrom = fromNumber;
+//				window.popupMustMakeOutgoingCallTo = toNumber;
+//				window.popupMustMakeOutgoingCallType = callType;
+//				openPopupWindow(false);
 			});
 
 			StringeeSoftPhone.on('incomingCall', function (incomingcall) {

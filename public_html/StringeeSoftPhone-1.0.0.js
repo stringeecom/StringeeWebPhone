@@ -87,7 +87,7 @@ var StringeeSoftPhone = StringeeSoftPhone || {
 	fromNumbers: [],
 	askCallTypeWhenMakeCall: false,
 	appendToElement: null,
-	
+
 	makeAndReceiveCallInNewPopupWindow: false
 };
 
@@ -126,6 +126,20 @@ StringeeSoftPhone._initOnReady = function (config) {
 	for (var propertyName in config) {
 		StringeeSoftPhone[propertyName] = config[propertyName];
 	}
+
+	window.onbeforeunload = function (e) {
+		e = e || window.event;
+
+		// For IE and Firefox prior to version 4
+		if (e && StringeeSoftPhone._iframe.contentWindow.stringeePhone.currentCall) {
+			e.returnValue = 'Sure?';
+		}
+
+		// For Safari
+		if (StringeeSoftPhone._iframe.contentWindow.stringeePhone.currentCall) {
+			return 'Sure?';
+		}
+	};
 
 	//build css: https://www.minifier.org/ : style_page.css
 	var style = document.createElement('style');
