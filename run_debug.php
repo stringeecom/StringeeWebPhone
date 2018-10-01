@@ -149,7 +149,7 @@
 
 
 			//userId = huy
-			var access_token2 = 'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS2FKTnN2bHZUaHJoTG5KY205NVZOV05UUG1TbkllYlh1LTE1MzcwMDQwMDQiLCJpc3MiOiJTS2FKTnN2bHZUaHJoTG5KY205NVZOV05UUG1TbkllYlh1IiwiZXhwIjoxNTM5NTk2MDA0LCJ1c2VySWQiOiJodXkiLCJpY2NfYXBpIjp0cnVlfQ.NWuvFZHts6lu1-pDS54RANJ0oWZ-T8DXZZMbZvMQgi0';
+			var access_token2 = '';
 
 			StringeeSoftPhone.on('displayModeChange', function (event) {
 				console.log('displayModeChange', event);

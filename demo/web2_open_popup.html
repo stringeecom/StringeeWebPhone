@@ -1,0 +1,209 @@
+<html lang="en">
+    <head>
+        <title>Stringee Web Phone demo</title>
+
+		<script type="text/javascript" src="https://static.stringee.com/web_phone/lastest/js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="https://static.stringee.com/web_phone/lastest/js/StringeeSoftPhone-lastest.js"></script>
+    </head>
+    <body>
+        <style>
+            button {
+                height: 25px;
+                cursor: pointer;
+            }
+
+            textarea {
+                height: 150px;
+                width: 400px;
+                resize: vertical;
+            }
+            #numbers {
+                width: 400px;
+                height: 30px;
+            }
+        </style>
+
+        <div style="left: 360px;top: 45px;position: absolute;">
+            From Numbers:
+            <br />
+            <input id="numbers" type="text" placeholder="84899199586, 84899199586">
+            <br /><br />
+
+            Access token:
+            <br />
+            <textarea id="access_token" rows="4" cols="50">YOUR ACCESS TOKEN</textarea>
+            <br />
+            <button id="connect-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+                Connect
+            </button>
+            <button id="disconnect-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+                Disconnect
+            </button>
+
+            <br /><br />
+
+            <button id="make-call-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+                Make call from '1111' to '2222'
+            </button>
+
+            
+
+			
+        </div>
+
+        <script>
+			var access_token = 'YOUR_ACCESS_TOKEN';
+
+			var callPopupWindow = null;
+			window.popupMustAnswerIncomingCall = false;
+			window.popupMustMakeOutgoingCall = false;
+			//
+			window.popupMustMakeOutgoingCallFrom = '';
+			window.popupMustMakeOutgoingCallTo = '';
+			window.popupMustMakeOutgoingCallType = '';
+
+			function openPopupWindow(answerIncomingCallBtnClick) {
+				if (callPopupWindow === null || callPopupWindow.closed) {
+					//chua tao popup, hoac da dong
+					callPopupWindow = window.open('popup.html', 'Call', 'height=740,width=490');
+
+					if (answerIncomingCallBtnClick) {
+						window.popupMustAnswerIncomingCall = true;
+					} else {
+						window.popupMustMakeOutgoingCall = true;
+					}
+				} else {
+					if (answerIncomingCallBtnClick) {
+						//answer call
+						callPopupWindow.StringeeSoftPhone.answerCall();
+					} else {
+						//make call
+						callPopupWindow.StringeeSoftPhone.makeCall(
+								window.popupMustMakeOutgoingCallFrom,
+								window.popupMustMakeOutgoingCallTo,
+								function (res) {
+									console.log('res: ', res);
+								},
+								window.popupMustMakeOutgoingCallType
+								);
+					}
+				}
+
+				if (window.focus) {
+					callPopupWindow.focus();
+				}
+			}
+
+			$(document).ready(function () {
+				$('#connect-btn').on('click', function () {
+					if ($('#numbers').val().length == 0) {
+						alert('Please enter your Numbers!');
+						return;
+					}
+
+					var fromNumbers = [];
+
+					var numbers = $('#numbers').val().split(",");
+					for (var i = 0; i < numbers.length; i++) {
+						var nn = {alias: numbers[i], number: numbers[i]};
+						fromNumbers.push(nn);
+					}
+
+					StringeeSoftPhone.config({fromNumbers: fromNumbers});
+
+					access_token = $('#access_token').val();
+					console.log('access_token: ' + access_token);
+					StringeeSoftPhone.connect(access_token);
+				});
+
+				$('#make-call-btn').on('click', function () {
+					if (!StringeeSoftPhone.connected) {
+						alert('Not connected!');
+						return;
+					}
+
+					window.popupMustMakeOutgoingCallFrom = '84899199586';
+					window.popupMustMakeOutgoingCallTo = '84986776707';
+					window.popupMustMakeOutgoingCallType = 'callout';
+					openPopupWindow(false);
+				});
+
+				$('#disconnect-btn').on('click', function () {
+					StringeeSoftPhone.disconnect();
+				});
+
+
+				
+
+			});
+        </script>
+
+		<script>
+			var config = {
+				showMode: 'full', //full | min | none
+				top: 45,
+				left: 50,
+				//right: undefined,
+				//bottom: undefined,
+				arrowLeft: 155,
+				arrowDisplay: 'top', //top | bottom | none
+				//list your Stringee Number
+				fromNumbers: [{alias: 'Number-1', number: '+84899199586'}, {alias: 'Number-2', number: '+2222'}],
+				askCallTypeWhenMakeCall: false,
+				appendToElement: null,
+				makeAndReceiveCallInNewPopupWindow: true
+			};
+			StringeeSoftPhone.init(config);
+
+			StringeeSoftPhone.on('displayModeChange', function (event) {
+				console.log('displayModeChange', event);
+				if (event === 'min') {
+					StringeeSoftPhone.config({arrowLeft: 75});
+				} else if (event === 'full') {
+					StringeeSoftPhone.config({arrowLeft: 155});
+				}
+			});
+
+			StringeeSoftPhone.on('requestNewToken', function () {
+				console.log('requestNewToken+++++++');
+				StringeeSoftPhone.connect(access_token);
+			});
+
+			StringeeSoftPhone.on('authen', function (res) {
+				console.log('authen: ', res);
+			});
+
+			StringeeSoftPhone.on('disconnect', function () {
+				console.log('disconnected');
+			});
+
+			StringeeSoftPhone.on('signalingstate', function (state) {
+				console.log('signalingstate', state);
+			});
+
+			StringeeSoftPhone.on('beforeMakeCall', function (call, callType) {
+				console.log('beforeMakeCall: ' + callType);
+				return true;
+			});
+
+			StringeeSoftPhone.on('answerIncomingCallBtnClick', function () {
+				console.log('answerIncomingCallBtnClick');
+				openPopupWindow(true);
+			});
+
+			StringeeSoftPhone.on('makeOutgoingCallBtnClick', function (fromNumber, toNumber, callType) {
+				console.log('makeOutgoingCallBtnClick: fromNumber=' + fromNumber + ', toNumber=' + toNumber + ',callType=' + callType);
+				window.popupMustMakeOutgoingCallFrom = fromNumber;
+				window.popupMustMakeOutgoingCallTo = toNumber;
+				window.popupMustMakeOutgoingCallType = callType;
+				openPopupWindow(false);
+			});
+
+			StringeeSoftPhone.on('incomingCall', function (incomingcall) {
+				console.log('incomingCall: ', incomingcall);
+			});
+		</script>
+    </body>
+</html>
+
+

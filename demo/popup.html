@@ -5,11 +5,10 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<script type="text/javascript" src="public_html/js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="https://static.stringee.com/web_phone/lastest/js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="https://static.stringee.com/web_phone/lastest/js/StringeeSoftPhone-lastest.js"></script>
 	</head>
 	<body>
-		<script src="public_html/StringeeSoftPhone-1.0.0.js"></script>
-
 		<script>
 			var config = {
 				showMode: 'full',
@@ -24,26 +23,26 @@
 			StringeeSoftPhone.init(config);
 
 			//userId = huy
-			var access_token2 = '';
+			var access_token = window.opener.access_token;
 
 			StringeeSoftPhone.on('requestNewToken', function () {
 				console.log('requestNewToken+++++++');
-				StringeeSoftPhone.connect(access_token2);
+				StringeeSoftPhone.connect(access_token);
 			});
 
 			StringeeSoftPhone.on('authen', function (res) {
 				console.log('authen: ', res);
-				if(res.r === 0 && window.opener.popupMustMakeOutgoingCall){
+				if (res.r === 0 && window.opener.popupMustMakeOutgoingCall) {
 					//make call
 					StringeeSoftPhone.makeCall(
-							window.opener.popupMustMakeOutgoingCallFrom, 
-							window.opener.popupMustMakeOutgoingCallTo, 
+							window.opener.popupMustMakeOutgoingCallFrom,
+							window.opener.popupMustMakeOutgoingCallTo,
 							function (res) {
 								console.log('res: ', res);
-							}, 
+							},
 							window.opener.popupMustMakeOutgoingCallType
-					);
-					
+							);
+
 					window.opener.popupMustMakeOutgoingCall = false;
 				}
 			});
@@ -55,7 +54,7 @@
 				window.opener.popupMustAnswerIncomingCall = false;
 			});
 
-			StringeeSoftPhone.connect(access_token2);
+			StringeeSoftPhone.connect(access_token);
 
 		</script>
 	</body>
