@@ -168,6 +168,14 @@
 			StringeeSoftPhone.on('incomingCall', function (incomingcall) {
 				console.log('incomingCall: ', incomingcall);
 			});
+			
+			StringeeSoftPhone.on('endCallBtnClick', function () {
+				console.log('endCallBtnClick');
+			});
+
+			StringeeSoftPhone.on('callingScreenHide', function () {
+				console.log('callingScreenHide');
+			});
 		</script>
     </body>
 </html>
