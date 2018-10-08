@@ -44,7 +44,7 @@
 			.wrap-video {
 				left: 360px;
 				position: fixed;
-				height: 500px;
+				height: 300px;
 				width: 1200px;
 			}
 			.wrap-video .video {
@@ -57,6 +57,18 @@
 				padding-right: 10px;
 				background-color: #434a5c !important;
 				height: 100%;
+			}
+			
+			.tool1 {
+				left: 360px;
+				top: 380px;
+				position: fixed;
+				height: 200px;
+				width: 1200px;
+			}
+			#access_token2 {
+				height: 150px;
+				width: 800px;
 			}
 		</style>
 
@@ -86,6 +98,8 @@
 		<script src="public_html/StringeeSoftPhone-<?= VERSION ?>.js"></script>
 
 		<script>
+			var access_token2 = '';
+			
 			var callPopupWindow = null;
 			window.popupMustAnswerIncomingCall = false;
 			window.popupMustMakeOutgoingCall = false;
@@ -148,8 +162,7 @@
 
 
 
-			//userId = huy
-			var access_token2 = '';
+			
 
 			StringeeSoftPhone.on('displayModeChange', function (event) {
 				console.log('displayModeChange', event);
@@ -214,12 +227,20 @@
 //				window.popupMustMakeOutgoingCallType = callType;
 //				openPopupWindow(false);
 			});
+			
+			StringeeSoftPhone.on('endCallBtnClick', function () {
+				console.log('endCallBtnClick');
+			});
+			
+			StringeeSoftPhone.on('callingScreenHide', function () {
+				console.log('callingScreenHide');
+			});
 
 			StringeeSoftPhone.on('incomingCall', function (incomingcall) {
 				console.log('incomingCall: ', incomingcall);
 			});
 
-			StringeeSoftPhone.connect(access_token2);
+			
 
 //				StringeeSoftPhone.show('full');				
 //				StringeeSoftPhone.config({fromNumbers: [{alias: 'Huy-1', number: '+1111'}, {alias: 'Huy-2', number: '+2222'}]});
@@ -236,6 +257,19 @@
 
 		<script>
 			$(document).ready(function () {
+				var a = localStorage.getItem("access_token2");
+				if(!a){
+					a = 'YOUR ACCESS TOKEN';
+				}
+				$('#access_token2').val(a);
+				
+				$('#connect-btn').on('click', function () {
+					access_token2 = $('#access_token2').val();
+					localStorage.setItem("access_token2", access_token2);
+					
+					StringeeSoftPhone.connect(access_token2);
+				});
+				
 				$('#make-call-btn').on('click', function () {
 					StringeeSoftPhone.makeCall('84123456789', '84986776707', function (res) {
 						console.log('res: ', res);
@@ -300,6 +334,14 @@
 				<video id="remoteVideo" class="flex-item" playsinline="" autoplay=""></video>
 
 			</div>
+		</div>
+		<div class="tool1">
+			<button id="connect-btn" class="channels-control" tabindex="-1" data-ember-action="1866">
+                Connect
+            </button>
+			<br/>
+			<br/>
+			<textarea id="access_token2" rows="4" cols="50">YOUR ACCESS TOKEN</textarea>
 		</div>
 
 	</body>

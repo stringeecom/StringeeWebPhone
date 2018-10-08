@@ -359,16 +359,6 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 		window.parent.StringeeSoftPhone.show('full');
 
 		var promise = thisPhone.ringtonePlayer.play();
-//		if (promise !== undefined) {
-//			promise.catch(error => {
-//				// Auto-play was prevented
-//				// Show a UI element to let the user manually start playback
-//				console.log('Auto-play was prevented');
-//			}).then(() => {
-//				console.log('Auto-play started');
-//			});
-//		}
-//		navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
 
 		window.parent.StringeeSoftPhone._callOnEvent('incomingCall', incomingcall);
 	});
@@ -406,8 +396,6 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 //				thisPhone.showIncomingCall(false);
 				thisPhone.hideIncomingCallUIWithTimeout('Call ended');
 
-//				thisPhone.ringtonePlayer.pause();
-//				thisPhone.ringtonePlayer.currentTime = 0;
 				thisPhone.stopRingtoneIncomingCall();
 			} else {
 				thisPhone.hideCallingUIWithTimeout();
@@ -522,6 +510,11 @@ StringeePhone.prototype.hideCallingUI = function () {
 	$('#btnToolCall').removeClass('btn-red');
 	$('#btnToolCall').addClass('btn-green');
 	$('#btnToolCall .icon').removeAttr('style');
+
+	var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('callingScreenHide');
+	if (eventMethod) {
+		eventMethod.call(window.parent.StringeeSoftPhone);
+	}
 
 	this.showTab('dialpad');
 };
@@ -698,6 +691,11 @@ StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
 			this.hideCallingUIWithTimeout();
 		}
 	} else {
+		var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('endCallBtnClick');
+		if (eventMethod) {
+			eventMethod.call(window.parent.StringeeSoftPhone);
+		}
+		
 		if (this.currentCall) {
 			this.currentCall.hangup();
 			this.hideCallingUIWithTimeout();
@@ -743,8 +741,6 @@ StringeePhone.prototype.incomingCallAcceptBtnClicked = function () {
 
 	//dung tieng play ringtone
 	thisPhone.stopRingtoneIncomingCall();
-//	thisPhone.ringtonePlayer.pause();
-//	thisPhone.ringtonePlayer.currentTime = 0;
 
 	thisPhone.showIncomingCall(false);
 
@@ -771,8 +767,6 @@ StringeePhone.prototype.incomingCallDeclineBtnClicked = function () {
 		this.currentCall.reject();
 	}
 
-//	this.ringtonePlayer.pause();
-//	this.ringtonePlayer.currentTime = 0;
 	thisPhone.stopRingtoneIncomingCall();
 
 	thisPhone.hideIncomingCallUIWithTimeout('Call declined');
@@ -850,15 +844,6 @@ StringeePhone.prototype.holdBtnClicked = function () {
 				$('#btnHold').addClass('active');
 			}
 		}
-
-//		var hold = !active;
-//		if (hold) {
-//			console.log('sendHold');
-//			this.currentCall.sendHold();
-//		} else {
-//			console.log('sendUnHold');
-//			this.currentCall.sendUnHold();
-//		}
 	}
 };
 

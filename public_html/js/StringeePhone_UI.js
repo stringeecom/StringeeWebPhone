@@ -36,6 +36,11 @@ StringeePhone.prototype.hideCallingUI = function () {
 	$('#btnToolCall').addClass('btn-green');
 	$('#btnToolCall .icon').removeAttr('style');
 
+	var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('callingScreenHide');
+	if (eventMethod) {
+		eventMethod.call(window.parent.StringeeSoftPhone);
+	}
+
 	this.showTab('dialpad');
 };
 
@@ -211,6 +216,11 @@ StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
 			this.hideCallingUIWithTimeout();
 		}
 	} else {
+		var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('endCallBtnClick');
+		if (eventMethod) {
+			eventMethod.call(window.parent.StringeeSoftPhone);
+		}
+		
 		if (this.currentCall) {
 			this.currentCall.hangup();
 			this.hideCallingUIWithTimeout();
@@ -256,8 +266,6 @@ StringeePhone.prototype.incomingCallAcceptBtnClicked = function () {
 
 	//dung tieng play ringtone
 	thisPhone.stopRingtoneIncomingCall();
-//	thisPhone.ringtonePlayer.pause();
-//	thisPhone.ringtonePlayer.currentTime = 0;
 
 	thisPhone.showIncomingCall(false);
 
@@ -284,8 +292,6 @@ StringeePhone.prototype.incomingCallDeclineBtnClicked = function () {
 		this.currentCall.reject();
 	}
 
-//	this.ringtonePlayer.pause();
-//	this.ringtonePlayer.currentTime = 0;
 	thisPhone.stopRingtoneIncomingCall();
 
 	thisPhone.hideIncomingCallUIWithTimeout('Call declined');
@@ -363,15 +369,6 @@ StringeePhone.prototype.holdBtnClicked = function () {
 				$('#btnHold').addClass('active');
 			}
 		}
-
-//		var hold = !active;
-//		if (hold) {
-//			console.log('sendHold');
-//			this.currentCall.sendHold();
-//		} else {
-//			console.log('sendUnHold');
-//			this.currentCall.sendUnHold();
-//		}
 	}
 };
 

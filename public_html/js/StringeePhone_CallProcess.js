@@ -167,16 +167,6 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 		window.parent.StringeeSoftPhone.show('full');
 
 		var promise = thisPhone.ringtonePlayer.play();
-//		if (promise !== undefined) {
-//			promise.catch(error => {
-//				// Auto-play was prevented
-//				// Show a UI element to let the user manually start playback
-//				console.log('Auto-play was prevented');
-//			}).then(() => {
-//				console.log('Auto-play started');
-//			});
-//		}
-//		navigator.mediaDevices.getUserMedia(constraints).then(successCallback).catch(errorCallback);
 
 		window.parent.StringeeSoftPhone._callOnEvent('incomingCall', incomingcall);
 	});
@@ -214,8 +204,6 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 //				thisPhone.showIncomingCall(false);
 				thisPhone.hideIncomingCallUIWithTimeout('Call ended');
 
-//				thisPhone.ringtonePlayer.pause();
-//				thisPhone.ringtonePlayer.currentTime = 0;
 				thisPhone.stopRingtoneIncomingCall();
 			} else {
 				thisPhone.hideCallingUIWithTimeout();
