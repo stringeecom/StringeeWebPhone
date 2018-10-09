@@ -239,6 +239,15 @@
 			StringeeSoftPhone.on('incomingCall', function (incomingcall) {
 				console.log('incomingCall: ', incomingcall);
 			});
+			
+			
+			StringeeSoftPhone.on('declineIncomingCallBtnClick', function () {
+				console.log('declineIncomingCallBtnClick');
+			});
+			
+			StringeeSoftPhone.on('incomingScreenHide', function () {
+				console.log('incomingScreenHide');
+			});
 
 			
 

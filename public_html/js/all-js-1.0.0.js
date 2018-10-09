@@ -610,6 +610,12 @@ StringeePhone.prototype.hideIncomingCallUIWithTimeout = function (status) {//tao
 		thisPhone.isInCall = false;
 		thisPhone.currentCall = null;
 		thisPhone.timeoutEndCallUI = null;
+		
+		var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('incomingScreenHide');
+		if (eventMethod) {
+			eventMethod.call(window.parent.StringeeSoftPhone);
+		}
+		
 	}, 2000);
 };
 
@@ -762,6 +768,11 @@ StringeePhone.prototype.incomingCallAcceptBtnClicked = function () {
 };
 
 StringeePhone.prototype.incomingCallDeclineBtnClicked = function () {
+	var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('declineIncomingCallBtnClick');
+	if (eventMethod) {
+		eventMethod.call(window.parent.StringeeSoftPhone);
+	}
+	
 	var thisPhone = this;
 	if (this.currentCall) {
 		this.currentCall.reject();
