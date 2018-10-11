@@ -964,3 +964,5 @@ button {
     background: linear-gradient(262.92deg, #b589d3 6.49%, #9a5ac6 108.73%);
     box-shadow: 0px 4px 24px rgba(50, 153, 150, 0.25);
 }
+.wrap-action-top-right button img {
+  vertical-align: middle; }

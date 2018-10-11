@@ -6,9 +6,14 @@
 		CONTACT
 	</div>
 
-	<button id="btnMinimize" class="btn-minimize border-none bg-transparent position-absolute  right-15 top-10">
-		<img src="<?= BASE_URL ?>images/icon-minimize.svg">
-	</button>
+	<div class="wrap-action-top-right float-right mr position-absolute right-15 top-10">
+		<button id="btnMinimize" class="btn-minimize border-none bg-transparent" title="Minimize">
+			<img src="<?= BASE_URL ?>images/icon-minimize.svg">
+		</button>
+		<button id="btnCloseIframe" class="btn-minimize border-none bg-transparent display-none" title="Close">
+			<img src="<?= BASE_URL ?>images/icon-close-no-border.svg" />
+		</button>
+	</div>
 
 </section>
 <!--  END TOP BAR  -->

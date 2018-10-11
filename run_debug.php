@@ -35,7 +35,7 @@
 
 			#make-call-btn {
 				position: absolute;
-				right: 1100px;
+				right: 1000px;
 				width: 150px;
 				height: 25px;
 				cursor: pointer;
@@ -155,7 +155,8 @@
 
 				makeAndReceiveCallInNewPopupWindow: false,
 
-				appendToElement: null
+				appendToElement: null,
+//				showButtonClose: true
 			};
 			StringeeSoftPhone.init(config);
 
@@ -304,6 +305,9 @@
 				$('#answer-btn').on('click', function () {
 					StringeeSoftPhone.answerCall();
 				});
+				$('#show-hide-btn').on('click', function(){
+					StringeeSoftPhone.show('full');
+				});
 			});
 		</script>
 
@@ -331,6 +335,11 @@
 
 			<button id="hangup-call-btn" class="channels-control">
 				Hangup
+			</button>
+			
+			
+			<button id="show-hide-btn" class="channels-control">
+				Show
 			</button>
 		</div>
 

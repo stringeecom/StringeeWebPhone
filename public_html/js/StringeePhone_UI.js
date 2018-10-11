@@ -417,6 +417,15 @@ StringeePhone.prototype.setFromNumbers = function (numbers) {
 	$('#from-number-callout').html(selectedNumber);
 };
 
+StringeePhone.prototype.showButtonClose = function(show){
+	if(show === 'show'){
+		$('#btnCloseIframe').removeClass('display-none');
+	}else{
+		$('#btnCloseIframe').addClass('display-none');
+	}
+};
+
+
 $(document).ready(function () {
 	//disable btn call
 	$('#btnToolCall').attr('disabled', 'disabled');
@@ -619,6 +628,15 @@ $(document).ready(function () {
 	$('.btn-free-callout').on('click', function () {
 		stringeePhone.callBtnClicked('callout', true);
 		$('.wrap-option-call').addClass('display-none');
+	});
+	
+	// click close iframe
+	$('#btnCloseIframe').on('click', function(){
+		if(!stringeePhone.currentCall || stringeePhone.currentCall.ended){
+			window.parent.StringeeSoftPhone.show('none');
+		}else{
+			alert('Please end call before close phone');
+		}	
 	});
 });
 

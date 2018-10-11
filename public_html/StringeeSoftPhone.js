@@ -21,7 +21,8 @@ var StringeeSoftPhone = StringeeSoftPhone || {
 	askCallTypeWhenMakeCall: false,
 	appendToElement: null,
 
-	makeAndReceiveCallInNewPopupWindow: false
+	makeAndReceiveCallInNewPopupWindow: false,
+	showButtonClose: true
 };
 
 
@@ -213,6 +214,15 @@ StringeeSoftPhone.config = function (config) {//{top, left, right, bottom}
 		//fromNumbers
 		if (config.fromNumbers !== undefined) {
 			StringeeSoftPhone._iframe.contentWindow.stringeePhone.setFromNumbers(config.fromNumbers);
+		}
+		
+		//showButtonClose
+		if (config.showButtonClose !== undefined) {
+			if(config.showButtonClose){
+				StringeeSoftPhone._iframe.contentWindow.stringeePhone.showButtonClose('show');
+			}else{
+				StringeeSoftPhone._iframe.contentWindow.stringeePhone.showButtonClose('none');
+			}
 		}
 	}
 };
