@@ -20,6 +20,7 @@ function StringeePhone() {
 
 	this.remoteVideo = document.getElementById('remoteVideo');
 	this.ringtonePlayer = document.getElementById('ringtonePlayer');
+	this.ringtonePlayer.loop = true;
 
 	this.timeoutEndCallUI = null;
 

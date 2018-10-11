@@ -104,7 +104,7 @@
 				<?php include 'select_call_type.php'; ?>
             </div>
 
-			<audio id="ringtonePlayer" playsinline style="width: 1px" src="<?= BASE_URL ?>Antique-Phone5.mp3"></audio>
+			<audio preload="auto" id="ringtonePlayer" playsinline style="width: 1px" src="<?= BASE_URL ?>Antique-Phone5.mp3"></audio>
 
 			<video id="remoteVideo" playsinline autoplay style="width: 1px"></video>
         </div>
