@@ -249,6 +249,10 @@
 			StringeeSoftPhone.on('incomingScreenHide', function () {
 				console.log('incomingScreenHide');
 			});
+			
+			StringeeSoftPhone.on('customMessage', function (data) {
+				console.log('customMessage', data);
+			});
 
 			
 
