@@ -177,6 +177,11 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 	client.on('otherdeviceauthen', function (data) {
 		console.log('otherdeviceauthen: ', data);
 	});
+	
+	client.on('custommessage', function (data) {
+		window.parent.StringeeSoftPhone._callOnEvent('customMessage', data);
+	});
+	
 };
 
 StringeePhone.prototype.settingCallEvents = function (call1) {
