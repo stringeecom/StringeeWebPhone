@@ -208,6 +208,9 @@
 
 			StringeeSoftPhone.on('authen', function (res) {
 				console.log('authen: ', res);
+				if (res.r === 0){
+					StringeeSoftPhone.setLabelHtml('.top-bar-status', 'Dau Huy');
+				}
 			});
 
 			StringeeSoftPhone.on('disconnect', function () {

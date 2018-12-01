@@ -293,8 +293,6 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 //		console.log('authen: ', res);
 		$('#loggedUserId').html(res.userId);
 		
-		window.parent.StringeeSoftPhone._callOnEvent('authen', res);
-		
 		if (res.r === 0) {
 			thisPhone.connected = true;
 			window.parent.StringeeSoftPhone.connected = true;
@@ -311,6 +309,8 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 			$('.top-bar-status').addClass('color-red');
 			$('.top-bar-status').removeClass('color-green');
 		}
+		
+		window.parent.StringeeSoftPhone._callOnEvent('authen', res);
 	});
 	client.on('disconnect', function () {
 //		console.log('disconnected');
