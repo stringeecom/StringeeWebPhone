@@ -369,6 +369,11 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 	client.on('otherdeviceauthen', function (data) {
 		console.log('otherdeviceauthen: ', data);
 	});
+	
+	client.on('custommessage', function (data) {
+		window.parent.StringeeSoftPhone._callOnEvent('customMessage', data);
+	});
+	
 };
 
 StringeePhone.prototype.settingCallEvents = function (call1) {
@@ -579,6 +584,10 @@ StringeePhone.prototype.callStatus = function (status) {
 	$('.status-text').html(status);
 
 	this.updateUiMinMode();
+};
+
+StringeePhone.prototype.setLabelHtml = function (selector, html) {
+	$(selector).html(html);
 };
 
 StringeePhone.prototype.hideCallingUIWithTimeout = function () {//tao timeout an man hinh Calling

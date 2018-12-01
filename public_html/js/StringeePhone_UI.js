@@ -105,6 +105,10 @@ StringeePhone.prototype.callStatus = function (status) {
 	this.updateUiMinMode();
 };
 
+StringeePhone.prototype.setLabelHtml = function (selector, html) {
+	$(selector).html(html);
+};
+
 StringeePhone.prototype.hideCallingUIWithTimeout = function () {//tao timeout an man hinh Calling
 	var thisPhone = this;
 

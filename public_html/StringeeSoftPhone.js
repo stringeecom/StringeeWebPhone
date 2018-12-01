@@ -258,3 +258,11 @@ StringeeSoftPhone.answerCall = function () {
 	return StringeeSoftPhone._iframe.contentWindow.stringeePhone.answerCall();
 };
 
+StringeeSoftPhone.setLabelHtml = function (selector, html) {
+	if (!StringeeSoftPhone._ready) {
+		return false;
+	}
+
+	return StringeeSoftPhone._iframe.contentWindow.stringeePhone.setLabelHtml(selector, html);
+};
+

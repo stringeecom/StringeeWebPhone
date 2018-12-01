@@ -149,7 +149,7 @@
 				arrowLeft: 155,
 				arrowDisplay: 'top',
 
-				fromNumbers: [{alias: 'Huy-1', number: '+84899199586'}, {alias: 'Huy-2', number: '+2222'}],
+				fromNumbers: [{alias: 'Huy-1', number: '+842473000538'}],
 
 				askCallTypeWhenMakeCall: true,
 
@@ -181,26 +181,30 @@
 
 			StringeeSoftPhone.on('beforeMakeCall', function (call, callType) {
 				console.log('beforeMakeCall: ' + callType);
+//				$('.info-name').html('Huy');
+				
+				StringeeSoftPhone.setLabelHtml('.info-name', 'Huy');
+				
 //				if (callType === 'free-video-call') {
 //					call.video = true;
 //				}
 				return true;
 			});
 
-			//neu ko dung video call thi ham nay ko can
-			StringeeSoftPhone.on('addlocalstream', function (stream) {
-				//console.log('addlocalstream: ', stream);
-				localVideo.srcObject = null;
-				localVideo.srcObject = stream;
-			});
-
-			//neu ko dung video call thi ham nay ko can
-			//neu ham nay co thi bat buoc phai set vao remoteVideo cua document nay
-			StringeeSoftPhone.on('addremotestream', function (stream) {
-				//console.log('addremotestream: ', stream);
-				remoteVideo.srcObject = null;
-				remoteVideo.srcObject = stream;
-			});
+//			//neu ko dung video call thi ham nay ko can
+//			StringeeSoftPhone.on('addlocalstream', function (stream) {
+//				//console.log('addlocalstream: ', stream);
+//				localVideo1.srcObject = null;
+//				localVideo1.srcObject = stream;
+//			});
+//
+//			//neu ko dung video call thi ham nay ko can
+//			//neu ham nay co thi bat buoc phai set vao remoteVideo cua document nay
+//			StringeeSoftPhone.on('addremotestream', function (stream) {
+//				//console.log('addremotestream: ', stream);
+//				remoteVideo1.srcObject = null;
+//				remoteVideo1.srcObject = stream;
+//			});
 
 			StringeeSoftPhone.on('authen', function (res) {
 				console.log('authen: ', res);
@@ -239,6 +243,7 @@
 
 			StringeeSoftPhone.on('incomingCall', function (incomingcall) {
 				console.log('incomingCall: ', incomingcall);
+				StringeeSoftPhone.setLabelHtml('.info-name', 'Cuoc goi den tu Huy');
 			});
 			
 			
@@ -292,7 +297,7 @@
 
 				$('#make-call-popup-btn').on('click', function () {
 					//test
-					window.popupMustMakeOutgoingCallFrom = '84899199586';
+//					window.popupMustMakeOutgoingCallFrom = '84899199586';
 					window.popupMustMakeOutgoingCallTo = '84909982668';
 					window.popupMustMakeOutgoingCallType = 'callout';
 					openPopupWindow(false);
@@ -349,11 +354,13 @@
 
 		<div class="wrap-video">
 			<div class="video wrapLocalVideo">
-				<video id="localVideo" class="flex-item" playsinline="" autoplay="" muted=""></video>
+				<video id="localVideo1" class="flex-item" playsinline="" autoplay="" muted=""></video>
+				
+				<!--<video id="remoteVideo" playsinline="" autoplay="" style="width: 100px"></video>-->
 
 			</div>
 			<div class="video wrapRemoteVideo">
-				<video id="remoteVideo" class="flex-item" playsinline="" autoplay=""></video>
+				<video id="remoteVideo1" class="flex-item" playsinline="" autoplay="" style="width: 100px"></video>
 
 			</div>
 		</div>
