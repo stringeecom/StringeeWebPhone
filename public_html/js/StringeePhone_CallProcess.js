@@ -181,6 +181,9 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 	client.on('custommessage', function (data) {
 		window.parent.StringeeSoftPhone._callOnEvent('customMessage', data);
 	});
+	client.on('messagefromtopic', function (data) {
+		window.parent.StringeeSoftPhone._callOnEvent('messageFromTopic', data);
+	});
 	
 };
 

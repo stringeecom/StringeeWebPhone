@@ -181,13 +181,9 @@
 
 			StringeeSoftPhone.on('beforeMakeCall', function (call, callType) {
 				console.log('beforeMakeCall: ' + callType);
-//				$('.info-name').html('Huy');
 				
 				StringeeSoftPhone.setLabelHtml('.info-name', 'Huy');
 				
-//				if (callType === 'free-video-call') {
-//					call.video = true;
-//				}
 				return true;
 			});
 
@@ -260,6 +256,10 @@
 			
 			StringeeSoftPhone.on('customMessage', function (data) {
 				console.log('customMessage', data);
+			});
+			
+			StringeeSoftPhone.on('messageFromTopic', function (data) {
+				console.log('messageFromTopic+++++++', data);
 			});
 
 			
