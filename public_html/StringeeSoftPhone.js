@@ -6,6 +6,8 @@ var StringeeSoftPhone = StringeeSoftPhone || {
 	_access_token: null,
 
 	_onMethods: new StringeeHashMap(),
+	
+	_stringeeServerAddr: null,
 
 	connected: false,
 

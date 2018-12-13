@@ -289,6 +289,9 @@
 					access_token2 = $('#access_token2').val();
 					localStorage.setItem("access_token2", access_token2);
 					
+					//ket noi vao StringeeServer test
+//					StringeeSoftPhone._stringeeServerAddr = 'https://test3.stringee.com:6888';
+					
 					StringeeSoftPhone.connect(access_token2);
 				});
 				

@@ -226,6 +226,11 @@ StringeePhone.prototype.connect = function (access_token) {
 	$('.top-bar-status').addClass('color-red');
 	$('.top-bar-status').removeClass('color-green');
 
+	//neu cau hinh StringeeServer
+	if(window.parent.StringeeSoftPhone._stringeeServerAddr){
+		this.stringeeClient._stringeeServerAddr = window.parent.StringeeSoftPhone._stringeeServerAddr;
+	}
+
 	this.stringeeClient.connect(access_token);
 	this.settingClientEvents(this.stringeeClient);
 };
