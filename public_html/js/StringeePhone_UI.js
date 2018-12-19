@@ -366,6 +366,13 @@ StringeePhone.prototype.muteBtnClicked = function () {
 	}
 };
 
+StringeePhone.prototype.transferBtnClicked = function () {
+	if (this.currentCall && !this.currentCall.ended) {
+//		console.log('StringeePhone.prototype.transferBtnClicked');
+		window.parent.StringeeSoftPhone._callOnEvent('transferCallBtnClick', this.currentCall);
+	}
+};
+
 StringeePhone.prototype.holdBtnClicked = function () {
 	if (this.currentCall && !this.currentCall.ended) {
 		var active = $('#btnHold').hasClass('active');
@@ -503,7 +510,7 @@ $(document).ready(function () {
 	});
 	//btnTransfer
 	$('#btnTransfer').on('click', function () {
-		console.log('btnTransfer');
+		stringeePhone.transferBtnClicked();
 	});
 	//
 	$('#btnKeypadInCall').on('click', function () {

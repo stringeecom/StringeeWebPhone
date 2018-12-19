@@ -261,6 +261,12 @@
 			StringeeSoftPhone.on('messageFromTopic', function (data) {
 				console.log('messageFromTopic+++++++', data);
 			});
+			
+			StringeeSoftPhone.on('transferCallBtnClick', function (stringeeCall) {
+				console.log('transferCallBtnClick+++++++: ' + stringeeCall.callId);
+			});
+			
+			
 
 			
 
