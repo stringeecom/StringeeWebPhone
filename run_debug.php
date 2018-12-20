@@ -266,6 +266,10 @@
 				console.log('transferCallBtnClick+++++++: ' + stringeeCall.callId);
 			});
 			
+			StringeeSoftPhone.on('addParticipantBtnClick', function (stringeeCall) {
+				console.log('addParticipantBtnClick+++++++: ' + stringeeCall.callId);
+			});
+			
 			
 
 			

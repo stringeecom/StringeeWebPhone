@@ -37,7 +37,10 @@
         <button id="btnTransfer" class="action-call text-center flex-basis p-10 bg-white border-none">
             <img src="<?= BASE_URL ?>images/icon-back.svg" />
         </button>
-        <button id="btnMore" class="action-call text-center flex-basis p-10 bg-white border-none position-relative">
+		<button id="btnAddToCall" class="action-call text-center flex-basis p-10 bg-white border-none">
+			<img src="<?= BASE_URL ?>images/icon-add-to-call.svg">
+		</button>
+<!--        <button id="btnMore" class="action-call text-center flex-basis p-10 bg-white border-none position-relative">
             <img src="<?= BASE_URL ?>images/icon-more.svg" />
             <span class="drop-down-action display-none">
                 <span class="drop-down-rectangle"></span>
@@ -59,7 +62,7 @@
                     </li>
                 </ul>
             </span>
-        </button>
+        </button>-->
     </section>
 
     <section class="wrap-background bg-gradient-purple height-350 width-100-percent">
