@@ -129,7 +129,7 @@
 	
     <div class="wrap-call-using pl-20 pr-20 position-relative cursor-pointer">
         <div class="call-using-text mb-5">
-            CALL USING
+            Sử dụng số
         </div>
         <div class="call-using-select p-15 display-flex justify-content-space-between">
             <div>

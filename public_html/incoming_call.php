@@ -14,7 +14,7 @@
                     Pattrick Penna
                 </div>
                 <div class="wrap-location">
-                    <span class="location-via">via</span>
+                    <span class="location-via">thông qua</span>
                     <span class="location-text">Vietnam</span>
                 </div>
             </section>

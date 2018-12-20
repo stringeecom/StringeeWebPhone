@@ -7,7 +7,7 @@ var StringeePhone = StringeePhone || {};
 
 StringeePhone.prototype.showIncomingCall = function (show) {
 	if (show) {
-		this.callStatus('Incoming call');
+		this.callStatus('Có cuộc gọi đến');
 
 		//from, fromAlias
 		$('.incomming-call-info .info-name').html(this.currentCall.fromNumber);
@@ -114,7 +114,7 @@ StringeePhone.prototype.hideCallingUIWithTimeout = function () {//tao timeout an
 
 	$('#btnToolCall').attr('disabled', 'disabled');
 
-	this.callStatus('Call ended');
+	this.callStatus('Đã kết thúc');
 
 	thisPhone.timeoutEndCallUI = setTimeout(function () {
 		thisPhone.hideCallingUI();
@@ -206,7 +206,7 @@ StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
 		}
 
 		$('.info-name').html(toNumber);
-		this.callStatus('Calling...');
+		this.callStatus('Đang gọi...');
 
 		this.showTab('calling');
 
@@ -282,7 +282,7 @@ StringeePhone.prototype.incomingCallAcceptBtnClicked = function () {
 	this.isInCall = true;
 
 	$('.info-name').html(thisPhone.currentCall.fromNumber);
-	this.callStatus('Answered');
+	this.callStatus('Đã trả lời');
 
 	this.showTab('calling');
 

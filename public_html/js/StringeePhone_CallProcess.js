@@ -29,12 +29,12 @@ function StringeePhone() {
 
 StringeePhone.prototype.connect = function (access_token) {
 	//trang thai
-	$('.top-bar-status').html('Connecting...');
+	$('.top-bar-status').html('Đang kết nối...');
 	$('.top-bar-status').addClass('color-red');
 	$('.top-bar-status').removeClass('color-green');
 
 	//neu cau hinh StringeeServer
-	if(window.parent.StringeeSoftPhone._stringeeServerAddr){
+	if (window.parent.StringeeSoftPhone._stringeeServerAddr) {
 		this.stringeeClient._stringeeServerAddr = window.parent.StringeeSoftPhone._stringeeServerAddr;
 	}
 
@@ -105,7 +105,7 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 	client.on('authen', function (res) {
 //		console.log('authen: ', res);
 		$('#loggedUserId').html(res.userId);
-		
+
 		if (res.r === 0) {
 			thisPhone.connected = true;
 			window.parent.StringeeSoftPhone.connected = true;
@@ -122,14 +122,14 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 			$('.top-bar-status').addClass('color-red');
 			$('.top-bar-status').removeClass('color-green');
 		}
-		
+
 		window.parent.StringeeSoftPhone._callOnEvent('authen', res);
 	});
 	client.on('disconnect', function () {
 //		console.log('disconnected');
 		thisPhone.connected = false;
 		window.parent.StringeeSoftPhone.connected = false;
-		
+
 		window.parent.StringeeSoftPhone._callOnEvent('disconnect');
 
 		//disable btn call
@@ -182,14 +182,14 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 	client.on('otherdeviceauthen', function (data) {
 		console.log('otherdeviceauthen: ', data);
 	});
-	
+
 	client.on('custommessage', function (data) {
 		window.parent.StringeeSoftPhone._callOnEvent('customMessage', data);
 	});
 	client.on('messagefromtopic', function (data) {
 		window.parent.StringeeSoftPhone._callOnEvent('messageFromTopic', data);
 	});
-	
+
 };
 
 StringeePhone.prototype.settingCallEvents = function (call1) {
@@ -211,7 +211,8 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 	});
 
 	call1.on('signalingstate', function (state) {
-//		console.log('signalingstate ', state);
+		console.log('signalingstate ', state);
+
 		if (state.code === 6) {//Ended
 			//neu la cuoc goi den chua tra loi
 			if (call1.isIncomingCall && !call1.isAnswered) {
@@ -231,10 +232,23 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 			thisPhone.countDuration();
 		}
 
-		thisPhone.callStatus(state.reason);
-		
+
+		if (state.reason == 'Calling') {
+			thisPhone.callStatus('Đang gọi...');
+		} else if (state.reason == 'Ringing') {
+			thisPhone.callStatus('Đang đổ chuông...');
+		} else if (state.reason == 'Busy here') {
+			thisPhone.callStatus('Máy bận');
+		} else if (state.reason == 'Answered') {
+			thisPhone.callStatus('Đã trả lời');
+		} else if (state.reason == 'Ended') {
+			thisPhone.callStatus('Đã kết thúc');
+		} else {
+			thisPhone.callStatus(state.reason);
+		}
+
 		var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('signalingstate');
-		if(eventMethod){
+		if (eventMethod) {
 			eventMethod.call(window.parent.StringeeSoftPhone, state);
 		}
 	});
@@ -249,14 +263,29 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 
 	call1.on('otherdevice', function (data) {
 		console.log('on otherdevice:' + JSON.stringify(data));
-		if ((data.type === 'CALL_STATE' && data.code >= 200) || data.type === 'CALL_END') {
+
+		//thiet bi khac tu choi nghe may, nghe may hoac ngat may sau khi da nghe may
+		if ((data.type === 'CALL_STATE' && data.code > 200) || data.type === 'CALL_END') {
 			var status = '';
 			thisPhone.hideIncomingCallUIWithTimeout(status);
 		}
 
-		//dung tieng chuong khi nghe tu thiet bi khac
+		//dung tieng chuong khi nghe hoac ngat may tu thiet bi khac
 		if (data.type === 'CALL_STATE' && data.code >= 200) {
 			thisPhone.stopRingtoneIncomingCall();
+		}
+
+		if (data.type === 'CALL_STATE' && data.code == 200) {
+			//neu thiet bi khac nghe may
+			console.log('=========thiet bi khac nghe may===TODO');
+			$('#btnToolCall').attr('disabled', 'disabled');
+			thisPhone.incomingCallAcceptBtnClicked();
+			thisPhone.callStatus('Đã trả lời trên thiết bị khác');
+		}
+
+		if (data.type === 'CALL_END' && thisPhone.currentCall) {//thiet bi khac ngat may (sau khi da nghe may)
+			console.log('thiet bi khac ngat may (sau khi da nghe may)');
+			thisPhone.hideCallingUIWithTimeout();
 		}
 	});
 };
@@ -264,7 +293,7 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 
 StringeePhone.prototype.makeCall = function (fromNumber, toNumber, callType) {
 	var thisPhone = this;
-	
+
 	var isVideoCall = callType === 'free-video-call';
 
 	var call = new StringeeCall(this.stringeeClient, fromNumber, toNumber, isVideoCall);

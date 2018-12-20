@@ -1,6 +1,8 @@
 <!--  TOP BAR -->
 <section class="wrap-top-bar height-40 position-absolute top-0 width-100-percent">
-	<div class="top-bar-status color-red">Not connected</div>
+	<div class="top-bar-status color-red">
+		Chưa kết nối
+	</div>
 	
 	<div class="text-center top-bar-title">
 		CONTACT
