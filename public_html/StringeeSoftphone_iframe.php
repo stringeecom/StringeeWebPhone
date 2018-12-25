@@ -54,7 +54,7 @@
 		<?
 		//build JS===================================================== ==>
 		$file1 = file_get_contents('js/socket.io-2.1.1.js');
-		$file2 = file_get_contents('js/StringeeSDK-1.5.6.js');
+		$file2 = file_get_contents('js/StringeeSDK-1.5.8.js');
 		$file3 = file_get_contents('js/jquery-3.1.0.min.js');
 		$file4 = file_get_contents('js/StringeePhone_CallProcess.js');
 		$file5 = file_get_contents('js/StringeePhone_UI.js');

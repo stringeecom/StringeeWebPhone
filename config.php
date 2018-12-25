@@ -1,8 +1,8 @@
 <?php
 
 //debug
-//define('BASE_URL', 'http://127.0.0.1/stringee/StringeeWebPhone_github/StringeeWebPhone/public_html/');
-define('BASE_URL', 'https://static.stringee.com/web_phone/lastest/');
+define('BASE_URL', 'http://127.0.0.1/stringee/StringeeWebPhone_github/StringeeWebPhone/public_html/');
+//define('BASE_URL', 'https://static.stringee.com/web_phone/lastest/');
 
 
 

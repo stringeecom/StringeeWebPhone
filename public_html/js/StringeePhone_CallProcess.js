@@ -265,7 +265,7 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 		console.log('on otherdevice:' + JSON.stringify(data));
 
 		//thiet bi khac tu choi nghe may, nghe may hoac ngat may sau khi da nghe may
-		if ((data.type === 'CALL_STATE' && data.code > 200) || data.type === 'CALL_END') {
+		if ((data.type === 'CALL_STATE' && data.code >= 200) || data.type === 'CALL_END') {
 			var status = '';
 			thisPhone.hideIncomingCallUIWithTimeout(status);
 		}
@@ -275,13 +275,15 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 			thisPhone.stopRingtoneIncomingCall();
 		}
 
+		/*Tam thoi KHONG DUNG
 		if (data.type === 'CALL_STATE' && data.code == 200) {
 			//neu thiet bi khac nghe may
-			console.log('=========thiet bi khac nghe may===TODO');
+//			console.log('=========thiet bi khac nghe may===TODO');
 			$('#btnToolCall').attr('disabled', 'disabled');
 			thisPhone.incomingCallAcceptBtnClicked();
 			thisPhone.callStatus('Đã trả lời trên thiết bị khác');
 		}
+		*/
 
 		if (data.type === 'CALL_END' && thisPhone.currentCall) {//thiet bi khac ngat may (sau khi da nghe may)
 			console.log('thiet bi khac ngat may (sau khi da nghe may)');

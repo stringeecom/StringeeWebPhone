@@ -139,12 +139,12 @@ StringeePhone.prototype.hideIncomingCallUIWithTimeout = function (status) {//tao
 		thisPhone.isInCall = false;
 		thisPhone.currentCall = null;
 		thisPhone.timeoutEndCallUI = null;
-		
+
 		var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('incomingScreenHide');
 		if (eventMethod) {
 			eventMethod.call(window.parent.StringeeSoftPhone);
 		}
-		
+
 	}, 2000);
 };
 
@@ -230,7 +230,7 @@ StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
 		if (eventMethod) {
 			eventMethod.call(window.parent.StringeeSoftPhone);
 		}
-		
+
 		if (this.currentCall) {
 			this.currentCall.hangup();
 			this.hideCallingUIWithTimeout();
@@ -266,7 +266,10 @@ StringeePhone.prototype.stopRingtoneIncomingCall = function () {
 StringeePhone.prototype.incomingCallAcceptBtnClicked = function () {
 	var thisPhone = this;
 	if (thisPhone.currentCall && !thisPhone.currentCall.isAnswered) {
-		thisPhone.currentCall.answer();
+		if (!thisPhone.currentCall.answeredOnAnotherDevice) {
+			thisPhone.currentCall.answer();
+		}
+
 		thisPhone.currentCallAnswerTime = (new Date()).getTime();
 		thisPhone.countDuration();
 
@@ -301,7 +304,7 @@ StringeePhone.prototype.incomingCallDeclineBtnClicked = function () {
 	if (eventMethod) {
 		eventMethod.call(window.parent.StringeeSoftPhone);
 	}
-	
+
 	var thisPhone = this;
 	if (this.currentCall) {
 		this.currentCall.reject();
@@ -437,10 +440,10 @@ StringeePhone.prototype.setFromNumbers = function (numbers) {
 	$('#from-number-callout').html(selectedNumber);
 };
 
-StringeePhone.prototype.showButtonClose = function(show){
-	if(show === 'show'){
+StringeePhone.prototype.showButtonClose = function (show) {
+	if (show === 'show') {
 		$('#btnCloseIframe').removeClass('display-none');
-	}else{
+	} else {
 		$('#btnCloseIframe').addClass('display-none');
 	}
 };
@@ -524,7 +527,7 @@ $(document).ready(function () {
 	$('#btnAddToCall').on('click', function () {
 		stringeePhone.addParticipantBtnClicked();
 	});
-	
+
 	//
 	$('#btnKeypadInCall').on('click', function () {
 		console.log('btnKeypadInCall');
@@ -653,14 +656,14 @@ $(document).ready(function () {
 		stringeePhone.callBtnClicked('callout', true);
 		$('.wrap-option-call').addClass('display-none');
 	});
-	
+
 	// click close iframe
-	$('#btnCloseIframe').on('click', function(){
-		if(!stringeePhone.currentCall || stringeePhone.currentCall.ended){
+	$('#btnCloseIframe').on('click', function () {
+		if (!stringeePhone.currentCall || stringeePhone.currentCall.ended) {
 			window.parent.StringeeSoftPhone.show('none');
-		}else{
+		} else {
 			alert('Please end call before close phone');
-		}	
+		}
 	});
 });
 
