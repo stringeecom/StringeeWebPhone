@@ -295,7 +295,7 @@ StringeeSoftPhone.config = function (config) { //{top, left, right, bottom}
 		}
 
 		if (config.routingType !== undefined) {
-
+			StringeeSoftPhone._iframe.contentWindow.stringeePhone.showIconRoutingType(config.routingType)
 		}
 	}
 };

@@ -523,6 +523,8 @@ StringeePhone.prototype.makeCall = function (fromNumber, toNumber, callType) {
 
 var StringeePhone = StringeePhone || {};
 
+StringeePhone.prototype.baseUrl = 'https://static.stringee.com/web_phone/lastest/';
+
 StringeePhone.prototype.showIncomingCall = function (show) {
 	if (show) {
 		this.callStatus('Có cuộc gọi đến');
@@ -973,6 +975,21 @@ StringeePhone.prototype.showButtonClose = function (show) {
 	}
 };
 
+StringeePhone.prototype.showIconRoutingType = function (routingType) {
+	// var routingType = window.parent.StringeeSoftPhone.routingType;
+	var routingTypeLabelActived = '';
+	if (routingType == 1) {
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-browser.png' class='icon-option-active' title='Đổ cuộc gọi đến app và sipphone'>"
+	} else if (routingType == 2) {
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-phone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến số điện thoại'>";
+	} else if (routingType == 3) {
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-app.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến app'>";
+	} else if (routingType == 4) {
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-ipphone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến ipphone'>";
+	}
+	$('#routingTypeLabelActived').html(routingTypeLabelActived);
+}
+
 StringeePhone.prototype.setRoutingType = function (routingType) {
 	window.parent.StringeeSoftPhone._callOnEvent('setRoutingType', routingType);
 };
@@ -1029,21 +1046,10 @@ DropDown.prototype = {
 $(document).ready(function () {
 	//khoi tao 1 StringeePhone
 	var stringeePhone = new StringeePhone();
-	stringeePhone.baseUrl = 'https://static.stringee.com/web_phone/lastest/';
 
+	//khoi tao dropdown routing-type
 	var dd = new DropDown($('#dropdown-option-call'));
-	var routingType = window.parent.StringeeSoftPhone.routingType;
-	var routingTypeLabelActived = '';
-	if (routingType == 1) {
-		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-browser.png' class='icon-option-active' title='Đổ cuộc gọi đến app và sipphone'>"
-	} else if (routingType == 2) {
-		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-phone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến số điện thoại'>";
-	} else if (routingType == 3) {
-		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-app.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến app'>";
-	} else if (routingType == 4) {
-		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-ipphone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến ipphone'>";
-	}
-	$('#routingTypeLabelActived').html(routingTypeLabelActived);
+
 	//disable btn call
 	$('#btnToolCall').attr('disabled', 'disabled');
 

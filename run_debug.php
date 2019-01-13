@@ -219,6 +219,7 @@ fwrite($fp1, $all);
             console.log('authen: ', res);
             if (res.r === 0) {
                 //					StringeeSoftPhone.setLabelHtml('.top-bar-status', 'Dau Huy');
+                // StringeeSoftPhone.config({routingType: 2})
             }
         });
 
