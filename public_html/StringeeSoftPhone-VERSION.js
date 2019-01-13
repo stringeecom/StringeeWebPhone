@@ -1,3 +1,71 @@
+function StringeeHashMap() {
+	var obj = [];
+	obj.size = function () {
+		return this.length;
+	};
+	obj.isEmpty = function () {
+		return this.length === 0;
+	};
+	obj.containsKey = function (key) {
+		key = key + '';
+
+		for (var i = 0; i < this.length; i++) {
+			if (this[i].key === key) {
+				return i;
+			}
+		}
+		return -1;
+	};
+	obj.get = function (key) {
+		key = key + '';
+
+		var index = this.containsKey(key);
+		if (index > -1) {
+			return this[index].value;
+		}
+	};
+	obj.put = function (key, value) {
+		key = key + '';
+
+		if (this.containsKey(key) !== -1) {
+			return this.get(key);
+		}
+		this.push({'key': key, 'value': value});
+	};
+	obj.allKeys = function () {
+		var allKeys = [];
+		for (var i = 0; i < this.length; i++) {
+			allKeys.push(this[i].key);
+		}
+		return allKeys;
+	};
+	obj.allIntKeys = function () {
+		var allKeys = [];
+		for (var i = 0; i < this.length; i++) {
+			allKeys.push(parseInt(this[i].key));
+		}
+		return allKeys;
+	};
+	obj.remove = function (key) {
+		key = key + '';
+
+		var index = this.containsKey(key);
+		if (index > -1) {
+			this.splice(index, 1);
+		}
+	};
+	
+	obj.clear = function () {
+		var allKeys = this.allKeys();
+		for (var i = 0; i < allKeys.length; i++) {
+			var key = allKeys[i];
+			this.remove(key);
+		}
+	};
+
+	return obj;
+}
+
 var StringeeSoftPhone = StringeeSoftPhone || {
 	//private
 	_ready: false,
@@ -5,8 +73,6 @@ var StringeeSoftPhone = StringeeSoftPhone || {
 	_access_token: null,
 
 	_onMethods: new StringeeHashMap(),
-
-	_stringeeServerAddr: null,
 
 	connected: false,
 
@@ -23,8 +89,7 @@ var StringeeSoftPhone = StringeeSoftPhone || {
 	appendToElement: null,
 
 	makeAndReceiveCallInNewPopupWindow: false,
-	showButtonClose: true,
-	routingType: 1
+	showButtonClose: true
 };
 
 
@@ -120,7 +185,7 @@ StringeeSoftPhone._initOnReady = function (config) {
 		StringeeSoftPhone._iframe = iframe;
 	};
 
-	var iframe_html = 'IFRAME_CONTENT_REPLACE_BY_PHP';
+	var iframe_html = '';
 	getContentIframe(iframe_html);
 };
 
@@ -139,7 +204,7 @@ StringeeSoftPhone.disconnect = function () {
 	}
 };
 
-StringeeSoftPhone.config = function (config) { //{top, left, right, bottom}
+StringeeSoftPhone.config = function (config) {//{top, left, right, bottom}
 	//copy toan bo thuoc tinh cua config qua
 	for (var propertyName in config) {
 		StringeeSoftPhone[propertyName] = config[propertyName];
@@ -217,36 +282,27 @@ StringeeSoftPhone.config = function (config) { //{top, left, right, bottom}
 		if (config.fromNumbers !== undefined) {
 			StringeeSoftPhone._iframe.contentWindow.stringeePhone.setFromNumbers(config.fromNumbers);
 		}
-
+		
 		//showButtonClose
 		if (config.showButtonClose !== undefined) {
-			if (config.showButtonClose) {
+			if(config.showButtonClose){
 				StringeeSoftPhone._iframe.contentWindow.stringeePhone.showButtonClose('show');
-			} else {
+			}else{
 				StringeeSoftPhone._iframe.contentWindow.stringeePhone.showButtonClose('none');
 			}
-		}
-
-		if (config.routingType !== undefined) {
-
 		}
 	}
 };
 
 StringeeSoftPhone.show = function (showMode) {
-	var config = {
-		showMode: showMode
-	};
+	var config = {showMode: showMode};
 	StringeeSoftPhone.config(config);
 };
 
 
 StringeeSoftPhone.makeCall = function (fromNumber, toNumber, callback, callType) {
 	if (!StringeeSoftPhone._ready) {
-		callback.call(this, {
-			r: 1,
-			msg: 'StringeeSoftphone is not ready yet'
-		});
+		callback.call(this, {r: 1, msg: 'StringeeSoftphone is not ready yet'});
 		return;
 	}
 
@@ -269,10 +325,3 @@ StringeeSoftPhone.answerCall = function () {
 	return StringeeSoftPhone._iframe.contentWindow.stringeePhone.answerCall();
 };
 
-StringeeSoftPhone.setLabelHtml = function (selector, html) {
-	if (!StringeeSoftPhone._ready) {
-		return false;
-	}
-
-	return StringeeSoftPhone._iframe.contentWindow.stringeePhone.setLabelHtml(selector, html);
-};

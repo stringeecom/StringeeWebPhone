@@ -521,8 +521,6 @@ StringeePhone.prototype.makeCall = function (fromNumber, toNumber, callType) {
 	return true;
 };
 
-
-
 var StringeePhone = StringeePhone || {};
 
 
@@ -575,7 +573,7 @@ StringeePhone.prototype.showTab = function (tabName) {
 
 	this.currentTab = tabName;
 
-	if (tabName === 'dialpad') {//dialpad =========================>
+	if (tabName === 'dialpad') { //dialpad =========================>
 		$('.page').addClass('display-none');
 		$('#page-diapad').removeClass('display-none');
 
@@ -591,13 +589,13 @@ StringeePhone.prototype.showTab = function (tabName) {
 		}
 
 		$('.top-bar-title').html('');
-	} else if (tabName === 'calling') {//calling =========================>
+	} else if (tabName === 'calling') { //calling =========================>
 		$('.page').addClass('display-none');
 		$('#page-calling').removeClass('display-none');
 		$('.wrap-toolbar-bottom').addClass('bg-transparent');
 
 		$('.top-bar-title').html('');
-	} else if (tabName === 'contact') {//contact =========================>
+	} else if (tabName === 'contact') { //contact =========================>
 		$('.page').addClass('display-none');
 		$('#page-contact').removeClass('display-none');
 
@@ -607,7 +605,7 @@ StringeePhone.prototype.showTab = function (tabName) {
 		$('.wrap-toolbar-bottom').removeClass('bg-transparent');
 
 		$('.top-bar-title').html('Contacts');
-	} else if (tabName === 'activity') {//activity =========================>
+	} else if (tabName === 'activity') { //activity =========================>
 		$('.page').addClass('display-none');
 		$('#page-activity').removeClass('display-none');
 
@@ -632,7 +630,7 @@ StringeePhone.prototype.setLabelHtml = function (selector, html) {
 	$(selector).html(html);
 };
 
-StringeePhone.prototype.hideCallingUIWithTimeout = function () {//tao timeout an man hinh Calling
+StringeePhone.prototype.hideCallingUIWithTimeout = function () { //tao timeout an man hinh Calling
 	var thisPhone = this;
 
 	$('#btnToolCall').attr('disabled', 'disabled');
@@ -648,7 +646,7 @@ StringeePhone.prototype.hideCallingUIWithTimeout = function () {//tao timeout an
 	}, 2000);
 };
 
-StringeePhone.prototype.hideIncomingCallUIWithTimeout = function (status) {//tao timeout an man hinh IncomingCall
+StringeePhone.prototype.hideIncomingCallUIWithTimeout = function (status) { //tao timeout an man hinh IncomingCall
 	var thisPhone = this;
 
 	this.callStatus(status);
@@ -673,7 +671,10 @@ StringeePhone.prototype.hideIncomingCallUIWithTimeout = function (status) {//tao
 
 StringeePhone.prototype.makeCallWithUI = function (fromNumber, toNumber, callback, callType) {
 	if (this.isInCall || this.currentCall) {
-		callback.call(this, {r: 2, msg: 'StringeeSoftphone is busy'});
+		callback.call(this, {
+			r: 2,
+			msg: 'StringeeSoftphone is busy'
+		});
 		return false;
 	}
 
@@ -682,7 +683,10 @@ StringeePhone.prototype.makeCallWithUI = function (fromNumber, toNumber, callbac
 
 	this.callBtnClicked(callType, false);
 
-	callback.call(this, {r: 0, msg: 'Success'});
+	callback.call(this, {
+		r: 0,
+		msg: 'Success'
+	});
 };
 
 StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
@@ -894,14 +898,14 @@ StringeePhone.prototype.muteBtnClicked = function () {
 
 StringeePhone.prototype.transferBtnClicked = function () {
 	if (this.currentCall && !this.currentCall.ended) {
-//		console.log('StringeePhone.prototype.transferBtnClicked');
+		//		console.log('StringeePhone.prototype.transferBtnClicked');
 		window.parent.StringeeSoftPhone._callOnEvent('transferCallBtnClick', this.currentCall);
 	}
 };
 
 StringeePhone.prototype.addParticipantBtnClicked = function () {
 	if (this.currentCall && !this.currentCall.ended) {
-//		console.log('StringeePhone.prototype.transferBtnClicked');
+		//		console.log('StringeePhone.prototype.transferBtnClicked');
 		window.parent.StringeeSoftPhone._callOnEvent('addParticipantBtnClick', this.currentCall);
 	}
 };
@@ -943,7 +947,7 @@ StringeePhone.prototype.setFromNumbers = function (numbers) {
 	$('#list-from-numbers').html('');
 
 	for (var i = 0; i < numbers.length; i++) {
-		var number = numbers[i];//{number: '84900000', alias: ''}
+		var number = numbers[i]; //{number: '84900000', alias: ''}
 
 		var $item = $(itemHtml);
 		$item.find('.call-using-text-name').html(number.alias);
@@ -971,8 +975,72 @@ StringeePhone.prototype.showButtonClose = function (show) {
 	}
 };
 
+StringeePhone.prototype.setRoutingType = function (routingType) {
+	window.parent.StringeeSoftPhone._callOnEvent('setRoutingType', routingType);
+};
+
+StringeePhone.prototype.toggleKeypadInCall = function () {
+	if ($('#page-diapad').hasClass('diapad-when-calling')) {
+		$('#page-diapad').removeClass('diapad-when-calling');
+		$('.wrap-toolbar-bottom').addClass('bg-transparent');
+	} else {
+		$('#page-diapad').addClass('diapad-when-calling');
+		$('.wrap-toolbar-bottom').removeClass('bg-transparent');
+	}
+
+}
+
+
+function DropDown(el) {
+	this.dd = el;
+	this.placeholder = this.dd.children('span');
+	this.opts = this.dd.find('ul.dropdown > li');
+	this.val = '';
+	this.index = -1;
+	this.initEvents();
+}
+DropDown.prototype = {
+	initEvents: function () {
+		var obj = this;
+
+		obj.dd.on('click', function (event) {
+			$(this).toggleClass('active');
+			return false;
+		});
+
+		obj.opts.on('click', function () {
+			var opt = $(this);
+			obj.val = opt.attr('data-value');
+			obj.icon = opt.find('.icon-option')
+			obj.index = opt.index();
+			var iconActive = obj.icon.clone().addClass('icon-option-active');
+			obj.placeholder.html(iconActive);
+		});
+	},
+	getValue: function () {
+		return this.val;
+	},
+	getIndex: function () {
+		return this.index;
+	}
+}
+
+
 
 $(document).ready(function () {
+	var dd = new DropDown($('#dropdown-option-call'));
+	var routingType = window.parent.StringeeSoftPhone.routingType;
+	var routingTypeLabelActived = '';
+	if (routingType == 1) {
+		routingTypeLabelActived = '<img src="./public_html/images/icon-browser.png" class="icon-option-active" title="Đổ cuộc gọi đến app và sipphone">'
+	} else if (routingType == 2) {
+		routingTypeLabelActived = '<img src="./public_html/images/icon-phone.png" class="icon-option icon-option-active" title="Đổ cuộc gọi đến số điện thoại">';
+	} else if (routingType == 3) {
+		routingTypeLabelActived = '<img src="./public_html/images/icon-app.png" class="icon-option icon-option-active" title="Đổ cuộc gọi đến app">';
+	} else if (routingType == 4) {
+		routingTypeLabelActived = '<img src="./public_html/images/icon-ipphone.png" class="icon-option icon-option-active" title="Đổ cuộc gọi đến ipphone">';
+	}
+	$('#routingTypeLabelActived').html(routingTypeLabelActived);
 	//disable btn call
 	$('#btnToolCall').attr('disabled', 'disabled');
 
@@ -1053,7 +1121,8 @@ $(document).ready(function () {
 
 	//
 	$('#btnKeypadInCall').on('click', function () {
-		console.log('btnKeypadInCall');
+		console.log("++++ toggleKeypadInCall")
+		stringeePhone.toggleKeypadInCall()
 	});
 	// call action ========= <==
 
@@ -1188,6 +1257,10 @@ $(document).ready(function () {
 			alert('Please end call before close phone');
 		}
 	});
+
+	$('#dropdown-option-call').find('li').on('click', function () {
+		// console.log('setRoutingType', this.attr('data-value'))
+		var routingType = $(this).attr('data-value');
+		stringeePhone.setRoutingType(routingType)
+	})
 });
-
-
