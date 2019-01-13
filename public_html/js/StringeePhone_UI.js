@@ -1,7 +1,5 @@
 var StringeePhone = StringeePhone || {};
 
-StringeePhone.baseUrl = 'https://static.stringee.com/web_phone/lastest/'
-
 StringeePhone.prototype.showIncomingCall = function (show) {
 	if (show) {
 		this.callStatus('Có cuộc gọi đến');
@@ -32,6 +30,7 @@ StringeePhone.prototype.hideCallingUI = function () {
 	$('#btnToolCall').removeClass('btn-red');
 	$('#btnToolCall').addClass('btn-green');
 	$('#btnToolCall .icon').removeAttr('style');
+	$('#page-diapad').removeClass('diapad-when-calling');
 
 	var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('callingScreenHide');
 	if (eventMethod) {
@@ -507,19 +506,19 @@ DropDown.prototype = {
 $(document).ready(function () {
 	//khoi tao 1 StringeePhone
 	var stringeePhone = new StringeePhone();
-	console.log('++++ StringeePhone.baseUrl', StringeePhone.baseUrl)
+	stringeePhone.baseUrl = 'https://static.stringee.com/web_phone/lastest/';
 
 	var dd = new DropDown($('#dropdown-option-call'));
 	var routingType = window.parent.StringeeSoftPhone.routingType;
 	var routingTypeLabelActived = '';
 	if (routingType == 1) {
-		routingTypeLabelActived = "<img src='" + (StringeePhone.baseUrl) + "images/icon-browser.png' class='icon-option-active' title='Đổ cuộc gọi đến app và sipphone'>"
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-browser.png' class='icon-option-active' title='Đổ cuộc gọi đến app và sipphone'>"
 	} else if (routingType == 2) {
-		routingTypeLabelActived = "<img src='" + StringeePhone.baseUrl + "images/icon-phone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến số điện thoại'>";
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-phone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến số điện thoại'>";
 	} else if (routingType == 3) {
-		routingTypeLabelActived = "<img src='" + StringeePhone.baseUrl + "images/icon-app.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến app'>";
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-app.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến app'>";
 	} else if (routingType == 4) {
-		routingTypeLabelActived = "<img src='" + StringeePhone.baseUrl + "images/icon-ipphone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến ipphone'>";
+		routingTypeLabelActived = "<img src='" + stringeePhone.baseUrl + "images/icon-ipphone.png' class='icon-option icon-option-active' title='Đổ cuộc gọi đến ipphone'>";
 	}
 	$('#routingTypeLabelActived').html(routingTypeLabelActived);
 	//disable btn call
