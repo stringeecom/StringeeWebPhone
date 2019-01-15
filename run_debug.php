@@ -289,7 +289,9 @@ fwrite($fp1, $all);
             console.log('setRoutingType+++++++: ' + routingType);
         });
 
-
+        StringeeSoftPhone.on('makeOutgoingCallResult', function(data) {
+            console.log('makeOutgoingCallResult+++++++: ', data);
+        });
 
 
 

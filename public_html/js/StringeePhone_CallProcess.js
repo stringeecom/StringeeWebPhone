@@ -1,12 +1,10 @@
-
-
 var StringeePhone = StringeePhone || {};
 
 function StringeePhone() {
 	this.connected = false;
 
 	this.isInCall = false;
-	this.currentTab = 'dialpad';//dialpad | calling | contact | activity
+	this.currentTab = 'dialpad'; //dialpad | calling | contact | activity
 
 	this.stringeeClient = new StringeeClient();
 
@@ -103,7 +101,7 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 		console.log('connected to StringeeServer');
 	});
 	client.on('authen', function (res) {
-//		console.log('authen: ', res);
+		//		console.log('authen: ', res);
 		$('#loggedUserId').html(res.userId);
 
 		if (res.r === 0) {
@@ -126,7 +124,7 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 		window.parent.StringeeSoftPhone._callOnEvent('authen', res);
 	});
 	client.on('disconnect', function () {
-//		console.log('disconnected');
+		//		console.log('disconnected');
 		thisPhone.connected = false;
 		window.parent.StringeeSoftPhone.connected = false;
 
@@ -150,7 +148,7 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 				return;
 			} else if (thisPhone.timeoutEndCallUI) {
 				//cuoc goi hien tai da ngat, tuy nhien timeout hideCalling chua chay xong
-//				console.log('cuoc goi hien tai da ngat, tuy nhien timeout hideCalling chua chay xong');
+				//				console.log('cuoc goi hien tai da ngat, tuy nhien timeout hideCalling chua chay xong');
 				clearTimeout(thisPhone.timeoutEndCallUI);
 				thisPhone.hideCallingUI();
 				thisPhone.showIncomingCall(false);
@@ -166,7 +164,7 @@ StringeePhone.prototype.settingClientEvents = function (client) {
 
 		thisPhone.settingCallEvents(incomingcall);
 
-//		console.log('incomingcall: ', incomingcall);
+		//		console.log('incomingcall: ', incomingcall);
 		thisPhone.showIncomingCall(true);
 
 		//show full mode
@@ -213,10 +211,10 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 	call1.on('signalingstate', function (state) {
 		console.log('signalingstate ', state);
 
-		if (state.code === 6) {//Ended
+		if (state.code === 6) { //Ended
 			//neu la cuoc goi den chua tra loi
 			if (call1.isIncomingCall && !call1.isAnswered) {
-//				thisPhone.showIncomingCall(false);
+				//				thisPhone.showIncomingCall(false);
 				thisPhone.hideIncomingCallUIWithTimeout('Call ended');
 
 				thisPhone.stopRingtoneIncomingCall();
@@ -224,10 +222,10 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 				thisPhone.hideCallingUIWithTimeout();
 			}
 
-//			thisPhone.hideCallingUIWithTimeout();//test nen de day
-		} else if (state.code === 5) {//Busy
+			//			thisPhone.hideCallingUIWithTimeout();//test nen de day
+		} else if (state.code === 5) { //Busy
 			thisPhone.hideCallingUIWithTimeout();
-		} else if (state.code === 3) {//answer
+		} else if (state.code === 3) { //answer
 			thisPhone.currentCallAnswerTime = (new Date()).getTime();
 			thisPhone.countDuration();
 		}
@@ -285,7 +283,7 @@ StringeePhone.prototype.settingCallEvents = function (call1) {
 		}
 		*/
 
-		if (data.type === 'CALL_END' && thisPhone.currentCall) {//thiet bi khac ngat may (sau khi da nghe may)
+		if (data.type === 'CALL_END' && thisPhone.currentCall) { //thiet bi khac ngat may (sau khi da nghe may)
 			console.log('thiet bi khac ngat may (sau khi da nghe may)');
 			thisPhone.hideCallingUIWithTimeout();
 		}
@@ -314,6 +312,14 @@ StringeePhone.prototype.makeCall = function (fromNumber, toNumber, callType) {
 	this.settingCallEvents(call);
 	call.makeCall(function (res) {
 		console.log('+++make call callback: ' + JSON.stringify(res));
+
+		//Kiem tra xem Dev co thuc hien ham: on(makeOutgoingCallResult)
+		var onMakeCall = window.parent.StringeeSoftPhone._onMethods.get('makeOutgoingCallResult');
+		//neu dev dinh nghia ham nay 'on(makeOutgoingCallResult_'
+		if (onMakeCall) {
+			onMakeCall.call(this, res);
+		}
+
 		if (res.r != 0) {
 			$('#callStatus').html(res.message);
 			thisPhone.hideCallingUIWithTimeout();
