@@ -32,7 +32,9 @@ StringeePhone.prototype.hideCallingUI = function () {
 	$('#btnToolCall').removeClass('btn-red');
 	$('#btnToolCall').addClass('btn-green');
 	$('#btnToolCall .icon').removeAttr('style');
-	$('#page-diapad').removeClass('diapad-when-calling');
+	// an ban phim dtmf + clear input dtmf
+	$('#page-calling').removeClass('diapad-when-calling');
+	$('#page-calling input').val('');
 
 	var eventMethod = window.parent.StringeeSoftPhone._onMethods.get('callingScreenHide');
 	if (eventMethod) {
@@ -325,6 +327,19 @@ StringeePhone.prototype.keypadKeyPress = function (key) {
 	$('#page-diapad input').focus();
 };
 
+StringeePhone.prototype.keypadKeyDtmfPress = function (key) {
+	var current = $('#page-calling input').val();
+	$('#page-calling input').val(current + key);
+	$('#page-calling input').focus();
+
+	if (this.currentCall) {
+		this.currentCall.sendDtmf(key, function (res) {
+			console.log('++++ sendDtmf key ' + key)
+		});
+	}
+
+};
+
 StringeePhone.formatDuration = function (duration) {
 	var time = Math.floor(duration / 1000);
 
@@ -472,11 +487,11 @@ StringeePhone.prototype.setRoutingType = function (routingType) {
 };
 
 StringeePhone.prototype.toggleKeypadInCall = function () {
-	if ($('#page-diapad').hasClass('diapad-when-calling')) {
-		$('#page-diapad').removeClass('diapad-when-calling');
+	if ($('#page-calling').hasClass('diapad-when-calling')) {
+		$('#page-calling').removeClass('diapad-when-calling')
 		$('.wrap-toolbar-bottom').addClass('bg-transparent');
 	} else {
-		$('#page-diapad').addClass('diapad-when-calling');
+		$('#page-calling').addClass('diapad-when-calling')
 		$('.wrap-toolbar-bottom').removeClass('bg-transparent');
 	}
 
@@ -702,6 +717,57 @@ $(document).ready(function () {
 		}, 1000);
 		return false;
 	});
+
+
+	//DTMF dialpad clear
+	$('#page-calling .btn-close').on('click', function () {
+		$('#page-calling input').val('');
+		$('#page-calling input').focus();
+	});
+
+	//keypadKeyPress
+	$('#diapad-key-dtmf-1').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('1');
+	});
+	$('#diapad-key-dtmf-2').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('2');
+	});
+	$('#diapad-key-dtmf-3').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('3');
+	});
+	$('#diapad-key-dtmf-4').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('4');
+	});
+	$('#diapad-key-dtmf-5').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('5');
+	});
+	$('#diapad-key-dtmf-6').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('6');
+	});
+	$('#diapad-key-dtmf-7').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('7');
+	});
+	$('#diapad-key-dtmf-8').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('8');
+	});
+	$('#diapad-key-dtmf-9').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('9');
+	});
+	$('#diapad-key-dtmf-0').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('0');
+	});
+	$('#diapad-key-dtmf-star').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('*');
+	});
+	$('#diapad-key-dtmf-sharp').on('click', function () {
+		stringeePhone.keypadKeyDtmfPress('#');
+	});
+
+
+
+
+
+
 
 	//thu nho / phong to
 	$('#btnMinimize').on('click', function () {

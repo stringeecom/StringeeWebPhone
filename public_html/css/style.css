@@ -731,37 +731,14 @@ button {
   right: 68px;
 }
 
-.diapad-when-calling {
-  background: #ffffff;
-  display: block !important;
-  height: calc(100% - 40px - 50px - 138px);
-  bottom: 0px;
-  top: initial;
-  box-shadow: 0px 12px 45px rgba(51, 49, 140, 0.25);
-  padding-top: 15px;
+.diapad-size-medium .diapad-key {
+  height: 48px;
 }
 
-.diapad-when-calling .diapad-key {
-  height: 45px;
-}
-
-.diapad-when-calling .wrap-call-using {
+#page-calling.diapad-when-calling .wrap-background {
   display: none;
 }
 
-.diapad-when-calling .diapad-row {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.diapad-when-calling .diapad-key-number {
-  color: #3546DE;
-}
-
-.diapad-when-calling .wrap-typing-number {
-  margin-bottom: 10px;
-}
-
-.diapad-when-calling .diapad-key-text {
-  visibility: hidden;
+#page-calling.diapad-when-calling .wrap-diapad-when-calling {
+  display: block !important;
 }
