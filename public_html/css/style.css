@@ -742,3 +742,11 @@ button {
 #page-calling.diapad-when-calling .wrap-diapad-when-calling {
   display: block !important;
 }
+
+input::selection {
+  background: #f2f7fe;
+}
+
+input::-moz-selection {
+  background: #f2f7fe;
+}

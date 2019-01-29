@@ -174,6 +174,7 @@ StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
 	toNumber = toNumber.replace("%2B", '');
 	toNumber = toNumber.replace("+", '');
 	toNumber = toNumber.replace(' ', '');
+	toNumber = toNumber.trim();
 
 	//fromNumber
 	var fromNumber = $('#from-number-callout').html();
