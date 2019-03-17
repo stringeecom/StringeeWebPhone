@@ -175,6 +175,9 @@ StringeePhone.prototype.callBtnClicked = function (callType, isBtnClicked) {
 	toNumber = toNumber.replace("+", '');
 	toNumber = toNumber.replace(' ', '');
 	toNumber = toNumber.trim();
+	if (toNumber.substr(0, 2) == "84" && toNumber.substr(2, 1) == "0") {
+		toNumber = toNumber.slice(0, 2) + toNumber.slice(3)
+	}
 
 	//fromNumber
 	var fromNumber = $('#from-number-callout').html();
@@ -813,5 +816,11 @@ $(document).ready(function () {
 		// console.log('setRoutingType', this.attr('data-value'))
 		var routingType = $(this).attr('data-value');
 		stringeePhone.setRoutingType(routingType)
+	})
+
+	$('#page-diapad input').keypress(e => {
+		if (e.which == 13) {
+			$('#btnToolCall').click();
+		}
 	})
 });
