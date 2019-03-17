@@ -818,7 +818,7 @@ $(document).ready(function () {
 		stringeePhone.setRoutingType(routingType)
 	})
 
-	$('#page-diapad input').keypress(e => {
+	$('#page-diapad input').keypress(function (e) {
 		if (e.which == 13) {
 			$('#btnToolCall').click();
 		}
