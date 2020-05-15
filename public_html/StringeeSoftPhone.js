@@ -47,7 +47,7 @@ StringeeSoftPhone._callOnEvent = function (eventName, param) {
 };
 
 StringeeSoftPhone.init = function (config) {
-	if (document.readyState === "complete") {
+	if (document.readyState === "interactive" || document.readyState === "complete") {
 		StringeeSoftPhone._initOnReady(config);
 		return;
 	}
