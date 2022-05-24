@@ -1,8 +1,5 @@
 
-
-
-
-Stringee Web Phone được xây dựng 100% dựa trên [Stringee JavaScript SDK](https://developer.stringee.com/download#contentSdkWebsite) với đầy đủ giao diện để bạn có thể nhúng nhanh chóng vào Web của mình:
+Stringee Web Phone is built 100% on top of the [Stringee JavaScript SDK](https://developer.stringee.com/download#contentSdkWebsite) with a full interface for you to quickly embed in your Web:
 
 ![Stringee Web Phone](https://static.stringee.com/docs/images/pcc/Stringee_web_phone.png "Stringee Web SoftPhone")
 
@@ -10,38 +7,37 @@ Demo: [https://v1.stringee.com/demo/web_phone.html](https://v1.stringee.com/demo
 
 
 
-### 1. Hướng dẫn sử dụng xem [tại đây](https://stringee.com/vi/blog/post/stringee-web-softphone)
+### 1. For user manual see [here].(https://stringee.com/en/blog/post/stringee-web-softphone)
 
 
-### 2. Hướng dẫn build
+### 2. Build instructions:
 
-#### a. Yêu cầu
+#### a. Requirements
 
 + PHP
 + Nodejs
-+ terminal app và môi trường MAC hoặc Linux
++ terminal app and a Mac or Linux environment
 
-#### b. Cấu hình
-
-
-
-###### Bước 1: Mở file config.php, cấu hình các tham số như sau:
-
-**BASE_URL**: Đường dẫn đến thư mục 'public_html', có dấu / ở cuối, VD: http://127.0.0.1/stringee/StringeeWebPhone/public_html/
-(Nếu đưa lên server thì đường dẫn đến thư mục 'public_html' trên server)
-
-
-**VERSION**: phiên bản 
-
-**BASE_URL_LOCAL**: giống với BASE_URL nhưng bắt buộc là đường dẫn ở local 
+#### b. Configuration
 
 
 
-###### Bước 2: Mở trình duyệt, chạy đến file 'run_debug.php' trên local
+###### Step 1: Open the config.php file, configure the parameters as follows:
+
+**BASE_URL**: Path to the 'public_html' directory, with a / at the end, For example: http://127.0.0.1/stringee/StringeeWebPhone/public_html/
+(If uploaded to the server, the path points to the 'public_html' directory on the server)
+
+
+**VERSION**: version
+
+**BASE_URL_LOCAL**: same as BASE_URL but must be local path
+
+
+
+###### Step 2: Open browser, run the file 'run_debug.php' on local
 
 http://127.0.0.1/stringee/StringeeWebPhone/run_debug.php
 
-###### Bước 3: Chạy lệnh ./build.sh từ terminal 
+###### Step 3: Run command ./build.sh from terminal
 
-###### Bước 4: Upload toàn bộ file trong thư mục dist vừa sinh ra lên Server ở đường dẫn bước 1 đã cấu hình
-
+###### Step 4: Upload all files in the generated dist folder to the Server at the configured path at step 1 
